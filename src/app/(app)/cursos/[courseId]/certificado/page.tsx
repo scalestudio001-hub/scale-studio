@@ -66,12 +66,12 @@ export default async function CertificatePage({ params }: PageProps<"/cursos/[co
               <strong className="font-serif font-normal italic text-[#D4A24E]">{data.course.title}</strong>, con sus {data.lessons.length} clases.
             </p>
           </div>
-          <div className="flex items-end justify-between gap-6 text-[clamp(8px,1vw,12px)] uppercase tracking-[0.2em] text-[#a9a69f]">
+          <div className="flex items-end gap-[6%] text-[clamp(8px,1vw,12px)] uppercase tracking-[0.2em] text-[#a9a69f]">
             <div>
               <p className="text-[#F3F2EE]">{date}</p>
               <p>Fecha</p>
             </div>
-            <div className="mr-[22%]">
+            <div>
               <p className="font-mono text-[#F3F2EE]">{code as string}</p>
               <p>Código de verificación</p>
             </div>
