@@ -45,10 +45,12 @@ export function PostCard({
   return (
     <article className={`card p-5 transition hover:border-brand/30 sm:p-6 ${post.pinned ? "border-brand/50" : ""}`}>
       <header className="flex items-center gap-3">
-        <Avatar name={name} url={post.author?.avatar_url} size={40} />
+        <Link href={`/miembros/${post.author_id}`} className="shrink-0 transition hover:opacity-80">
+          <Avatar name={name} url={post.author?.avatar_url} size={40} />
+        </Link>
         <div className="min-w-0 flex-1">
           <p className="flex items-center gap-2 text-sm font-semibold">
-            {name}
+            <Link href={`/miembros/${post.author_id}`} className="hover:text-brand">{name}</Link>
             {post.author?.role === "admin" && <span className="chip bg-brand text-on-brand">Equipo</span>}
           </p>
           <p className="text-xs text-muted">

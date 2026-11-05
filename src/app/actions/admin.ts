@@ -14,13 +14,41 @@ const num = (v: string) => (v === "" || isNaN(Number(v)) ? 0 : Number(v));
 export async function updateProfile(_: S, fd: FormData): Promise<S> {
   const { supabase, user } = await requireActive();
   const full_name = str(fd, "full_name");
-  const avatar_url = str(fd, "avatar_url") || null;
   if (!full_name) return { error: "Escribe tu nombre." };
-  if (avatar_url && !/^https:\/\//.test(avatar_url)) return { error: "La foto debe ser un link https://" };
-  const { error } = await supabase.from("profiles").update({ full_name, avatar_url }).eq("id", user.id);
+  let website = str(fd, "website");
+  if (website && !/^https?:\/\//i.test(website)) website = `https://${website}`;
+  const instagram = str(fd, "instagram").replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//i, "").replace(/\/$/, "");
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      full_name: full_name.slice(0, 80),
+      headline: str(fd, "headline").slice(0, 80) || null,
+      bio: str(fd, "bio").slice(0, 600) || null,
+      city: str(fd, "city").slice(0, 60) || null,
+      instagram: instagram.slice(0, 60) || null,
+      website: website.slice(0, 200) || null,
+    })
+    .eq("id", user.id);
   if (error) return { error: error.message };
   revalidatePath("/", "layout");
   return { ok: "Perfil actualizado ✅" };
+}
+
+/** Guarda la foto subida (solo se aceptan fotos del propio usuario en el bucket avatars). */
+export async function setAvatar(url: string | null) {
+  const { supabase, user } = await requireActive();
+  const base = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${user.id}/`;
+  if (url && !url.startsWith(base)) return { error: "Foto no válida" };
+  const { data: prev } = await supabase.from("profiles").select("avatar_url").eq("id", user.id).maybeSingle();
+  const { error } = await supabase.from("profiles").update({ avatar_url: url }).eq("id", user.id);
+  if (error) return { error: error.message };
+  // borra la foto anterior para no acumular archivos
+  const old = prev?.avatar_url as string | null;
+  if (old && old.startsWith(base) && old !== url) {
+    await supabase.storage.from("avatars").remove([old.slice(base.length - user.id.length - 1)]);
+  }
+  revalidatePath("/", "layout");
+  return { ok: true };
 }
 
 // ---------- Usuarios ----------

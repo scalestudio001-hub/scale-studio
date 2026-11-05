@@ -57,10 +57,10 @@ export default async function PostPage({ params, searchParams }: PageProps<"/com
         <div className="space-y-3">
           {((comments ?? []) as Comment[]).map((c) => (
             <div key={c.id} className="card group flex gap-3 p-4">
-              <Avatar name={c.author?.full_name || "Alumno"} url={c.author?.avatar_url} size={34} />
+              <Link href={`/miembros/${c.author_id}`} className="shrink-0"><Avatar name={c.author?.full_name || "Alumno"} url={c.author?.avatar_url} size={34} /></Link>
               <div className="min-w-0 flex-1">
                 <p className="flex flex-wrap items-center gap-2 text-sm font-semibold">
-                  {c.author?.full_name || "Alumno"}
+                  <Link href={`/miembros/${c.author_id}`} className="hover:text-brand">{c.author?.full_name || "Alumno"}</Link>
                   {c.author?.role === "admin" && <span className="chip bg-brand text-on-brand">Equipo</span>}
                   <span className="text-xs font-normal text-muted">{timeAgo(c.created_at)}</span>
                 </p>

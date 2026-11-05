@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { getBrowserClient } from "@/lib/supabase/client";
 import { Avatar, RichText } from "@/components/ui";
 import type { Author } from "@/lib/types";
@@ -326,11 +327,11 @@ export function ChatRoom({
                 </div>
               )}
               <div className={`group relative flex gap-3 rounded-md px-2 py-1 transition hover:bg-surface-2/70 ${grouped ? "" : "mt-3"}`}>
-                <div className="w-9 shrink-0">{!grouped && <Avatar name={name} url={m.author?.avatar_url} size={36} />}</div>
+                <div className="w-9 shrink-0">{!grouped && <Link href={`/miembros/${m.author_id}`}><Avatar name={name} url={m.author?.avatar_url} size={36} /></Link>}</div>
                 <div className="min-w-0 flex-1">
                   {!grouped && (
                     <p className="flex flex-wrap items-baseline gap-2 text-sm">
-                      <span className={`font-semibold ${mine ? "text-brand" : ""}`}>{name}</span>
+                      <Link href={`/miembros/${m.author_id}`} className={`font-semibold hover:underline ${mine ? "text-brand" : ""}`}>{name}</Link>
                       {m.author?.role === "admin" && <span className="chip bg-brand py-0 text-[9px] text-on-brand">Equipo</span>}
                       <span className="text-[11px] text-muted">{hora(m.created_at)}</span>
                     </p>

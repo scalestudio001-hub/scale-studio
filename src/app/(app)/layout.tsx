@@ -13,6 +13,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     { href: "/cursos", label: "Cursos", icon: "📚" },
     { href: "/comunidad", label: "Comunidad", icon: "📣" },
     { href: "/chat", label: "Chat grupal", icon: "💬" },
+    { href: "/miembros", label: "Miembros", icon: "👥" },
     { href: "/reuniones", label: "Reuniones", icon: "📅" },
     { href: "/perfil", label: "Mi perfil", icon: "👤" },
     ...(isAdmin ? [{ href: "/admin", label: "Administración", icon: "⚙️" }] : []),
@@ -20,7 +21,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   const footer = (
     <div className="flex items-center gap-3">
-      <Avatar name={profile.full_name} url={profile.avatar_url} />
+      <Link href="/perfil" className="shrink-0"><Avatar name={profile.full_name} url={profile.avatar_url} /></Link>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold">{profile.full_name || "Alumno"}</p>
         <form action={logout}>

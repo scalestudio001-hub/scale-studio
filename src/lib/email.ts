@@ -2,24 +2,46 @@ import "server-only";
 import nodemailer from "nodemailer";
 import { SITE_NAME } from "@/lib/utils";
 
+// Opción 1 (recomendada): Brevo — BREVO_API_KEY + EMAIL_FROM (correo verificado en Brevo)
+// Opción 2: Gmail — GMAIL_USER + GMAIL_APP_PASSWORD
+const brevoKey = process.env.BREVO_API_KEY;
 const user = process.env.GMAIL_USER;
 const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
+const FROM = process.env.EMAIL_FROM || user || "";
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
 
 const transporter =
-  user && pass
+  !brevoKey && user && pass
     ? nodemailer.createTransport({ service: "gmail", auth: { user, pass } })
     : null;
 
-/** Envía un correo. Si Gmail no está configurado, no hace nada (no rompe la app). */
+/** Envía un correo. Si no hay proveedor configurado, no hace nada (no rompe la app). */
 export async function sendEmail({ to, bcc, subject, html }: { to?: string; bcc?: string[]; subject: string; html: string }) {
-  if (!transporter) {
-    console.warn("[email] Gmail no configurado: no se envió", subject);
-    return false;
-  }
   try {
-    await transporter.sendMail({ from: `"${SITE_NAME}" <${user}>`, to: to ?? user, bcc, subject, html });
-    return true;
+    if (brevoKey && FROM) {
+      const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: { "api-key": brevoKey, "Content-Type": "application/json", accept: "application/json" },
+        body: JSON.stringify({
+          sender: { name: SITE_NAME, email: FROM },
+          to: [{ email: to ?? FROM }],
+          ...(bcc?.length ? { bcc: bcc.map((email) => ({ email })) } : {}),
+          subject,
+          htmlContent: html,
+        }),
+      });
+      if (!res.ok) {
+        console.error("[email] Brevo:", res.status, await res.text());
+        return false;
+      }
+      return true;
+    }
+    if (transporter) {
+      await transporter.sendMail({ from: `"${SITE_NAME}" <${user}>`, to: to ?? user, bcc, subject, html });
+      return true;
+    }
+    console.warn("[email] Sin proveedor de correo configurado: no se envió", subject);
+    return false;
   } catch (e) {
     console.error("[email] error:", e);
     return false;

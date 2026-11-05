@@ -9,6 +9,12 @@ export interface Profile {
   status: Status;
   plan_id: string | null;
   created_at: string;
+  headline?: string | null;
+  bio?: string | null;
+  city?: string | null;
+  instagram?: string | null;
+  website?: string | null;
+  last_seen_at?: string | null;
 }
 
 export interface AdminUser extends Profile {
