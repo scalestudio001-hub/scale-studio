@@ -20,7 +20,7 @@ export default async function ChatPage({ params }: PageProps<"/chat/[channelId]"
     supabase.from("chat_channels").select("id, name, plan_id").order("position").order("created_at"),
     supabase
       .from("chat_messages")
-      .select("id, channel_id, author_id, body, created_at, author:profiles!chat_messages_author_id_fkey(full_name, avatar_url, role)")
+      .select("id, channel_id, author_id, body, created_at, attachment_path, attachment_type, attachment_name, author:profiles!chat_messages_author_id_fkey(full_name, avatar_url, role)")
       .eq("channel_id", channelId)
       .order("created_at", { ascending: false })
       .limit(100),
@@ -30,6 +30,15 @@ export default async function ChatPage({ params }: PageProps<"/chat/[channelId]"
   const list = (channels ?? []) as Channel[];
   const current = list.find((c) => c.id === channelId);
   if (!current) notFound();
+  const messages = ((msgs ?? []) as unknown as ChatMessage[]).reverse();
+  const paths = messages.map((m) => m.attachment_path).filter(Boolean) as string[];
+  const initialUrls: Record<string, string> = {};
+  if (paths.length) {
+    const { data: signed } = await supabase.storage.from("chat").createSignedUrls(paths, 60 * 60 * 6);
+    signed?.forEach((d) => {
+      if (d.path && d.signedUrl) initialUrls[d.path] = d.signedUrl;
+    });
+  }
   const planName = (id: string | null) => ((plans ?? []) as Plan[]).find((p) => p.id === id)?.name;
 
   return (
@@ -85,7 +94,8 @@ export default async function ChatPage({ params }: PageProps<"/chat/[channelId]"
           channelId={current.id}
           me={{ id: user.id, full_name: profile.full_name, avatar_url: profile.avatar_url, role: profile.role }}
           isAdmin={isAdmin}
-          initial={((msgs ?? []) as unknown as ChatMessage[]).reverse()}
+          initial={messages}
+          initialUrls={initialUrls}
         />
       </section>
     </div>

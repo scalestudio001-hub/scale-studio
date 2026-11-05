@@ -367,3 +367,27 @@ alter table public.chat_messages replica identity full;
 
 insert into public.chat_channels (name, position)
 select 'General', 0 where not exists (select 1 from public.chat_channels);
+
+-- ---------- CHAT: imágenes, videos y audios --------------------------
+alter table public.chat_messages add column if not exists attachment_path text;
+alter table public.chat_messages add column if not exists attachment_type text check (attachment_type in ('image','video','audio'));
+alter table public.chat_messages add column if not exists attachment_name text;
+alter table public.chat_messages alter column body set default '';
+alter table public.chat_messages drop constraint if exists chat_messages_body_check;
+alter table public.chat_messages add constraint chat_messages_body_check
+  check (char_length(body) <= 2000 and (char_length(body) >= 1 or attachment_path is not null));
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('chat', 'chat', false, 52428800, array['image/*','video/*','audio/*'])
+on conflict (id) do update set file_size_limit = excluded.file_size_limit, allowed_mime_types = excluded.allowed_mime_types, public = false;
+
+drop policy if exists chat_files_select on storage.objects;
+drop policy if exists chat_files_insert on storage.objects;
+drop policy if exists chat_files_delete on storage.objects;
+create policy chat_files_select on storage.objects for select to authenticated
+  using (bucket_id = 'chat' and public.can_access_channel(((storage.foldername(name))[1])::uuid));
+create policy chat_files_insert on storage.objects for insert to authenticated
+  with check (bucket_id = 'chat' and (storage.foldername(name))[2] = auth.uid()::text
+              and public.can_access_channel(((storage.foldername(name))[1])::uuid));
+create policy chat_files_delete on storage.objects for delete to authenticated
+  using (bucket_id = 'chat' and ((storage.foldername(name))[2] = auth.uid()::text or public.is_admin()));
