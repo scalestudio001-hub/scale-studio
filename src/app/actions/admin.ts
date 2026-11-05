@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireActive, requireAdmin } from "@/lib/auth";
 import { str } from "@/lib/utils";
+import { approvalEmail, sendEmail } from "@/lib/email";
+import type { AdminUser } from "@/lib/types";
 
 type S = { error?: string; ok?: string } | undefined;
 const num = (v: string) => (v === "" || isNaN(Number(v)) ? 0 : Number(v));
@@ -24,13 +26,30 @@ export async function updateProfile(_: S, fd: FormData): Promise<S> {
 // ---------- Usuarios ----------
 export async function updateUser(fd: FormData) {
   const { supabase } = await requireAdmin();
+  const id = str(fd, "id");
+  const newStatus = str(fd, "status");
+  const planId = str(fd, "plan_id") || null;
+
+  const { data: users } = await supabase.rpc("admin_list_users");
+  const before = ((users ?? []) as AdminUser[]).find((u) => u.id === id);
+
   const { error } = await supabase.rpc("admin_update_user", {
-    uid: str(fd, "id"),
-    new_status: str(fd, "status"),
-    new_plan: str(fd, "plan_id") || null,
+    uid: id,
+    new_status: newStatus,
+    new_plan: planId,
     new_role: str(fd, "role"),
   });
   if (error) throw new Error(error.message);
+
+  // Correo de aprobación cuando pasa a activo
+  if (before && before.status !== "active" && newStatus === "active" && before.email) {
+    let planName: string | null = null;
+    if (planId) {
+      const { data: plan } = await supabase.from("plans").select("name").eq("id", planId).maybeSingle();
+      planName = plan?.name ?? null;
+    }
+    await sendEmail({ to: before.email, ...approvalEmail(before.full_name, planName) });
+  }
   revalidatePath("/admin");
 }
 

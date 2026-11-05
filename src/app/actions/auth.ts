@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { str } from "@/lib/utils";
+import { sendEmail, welcomeEmail } from "@/lib/email";
 
 export type FormState = { error?: string; ok?: string } | undefined;
 
@@ -66,6 +67,11 @@ export async function register(_: FormState, fd: FormData): Promise<FormState> {
     },
   });
   if (error) return { error: traducir(error.message) };
+
+  // Correo de bienvenida (si Gmail está configurado)
+  if (data.user && (data.user.identities?.length ?? 1) > 0) {
+    await sendEmail({ to: email, ...welcomeEmail(full_name) });
+  }
 
   // Si Supabase pide confirmar correo, todavía no hay sesión
   if (!data.session) {

@@ -68,6 +68,10 @@ export interface Post {
   body: string;
   pinned: boolean;
   created_at: string;
+  edited_at: string | null;
+  attachment_path: string | null;
+  attachment_type: "image" | "video" | null;
+  link_url: string | null;
   author: Author | null;
 }
 
