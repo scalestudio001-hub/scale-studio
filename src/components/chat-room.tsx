@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { Smile, Paperclip, Mic, SendHorizontal } from "lucide-react";
 import { getBrowserClient } from "@/lib/supabase/client";
 import { Avatar, RichText } from "@/components/ui";
 import type { Author } from "@/lib/types";
@@ -426,10 +427,10 @@ export function ChatRoom({
             <button
               type="button"
               onClick={() => setShowEmojis((v) => !v)}
-              className={`grid h-12 w-11 shrink-0 place-items-center rounded-md border text-xl transition ${showEmojis ? "border-brand bg-brand-soft" : "border-line hover:border-brand"}`}
+              className={`grid h-12 w-11 shrink-0 place-items-center rounded-md border transition ${showEmojis ? "border-brand bg-brand-soft" : "border-line hover:border-brand"}`}
               aria-label="Emojis"
             >
-              😊
+              <Smile strokeWidth={1.6} className="h-5 w-5 text-brand" />
             </button>
             <button
               type="button"
@@ -438,7 +439,7 @@ export function ChatRoom({
               aria-label="Adjuntar imagen o video"
               title="Imagen o video"
             >
-              📎
+              <Paperclip strokeWidth={1.6} className="h-5 w-5 text-brand" />
             </button>
             <input
               ref={fileInput}
@@ -471,7 +472,7 @@ export function ChatRoom({
             />
             {text.trim() || file ? (
               <button type="submit" disabled={sending} className="btn-primary h-12 shrink-0 px-5">
-                {sending ? (file ? "Subiendo…" : "…") : "Enviar"}
+                {sending ? (file ? "Subiendo…" : "…") : <><SendHorizontal strokeWidth={1.8} className="h-4 w-4" />Enviar</>}
               </button>
             ) : (
               <button
@@ -481,7 +482,7 @@ export function ChatRoom({
                 aria-label="Grabar nota de voz"
                 title="Nota de voz"
               >
-                🎤
+                <Mic strokeWidth={1.8} className="h-5 w-5" />
               </button>
             )}
           </div>

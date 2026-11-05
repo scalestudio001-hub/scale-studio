@@ -19,15 +19,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const isAdmin = profile.role === "admin";
 
   const items = [
-    { href: "/cursos", label: "Cursos", icon: "📚" },
-    { href: "/comunidad", label: "Comunidad", icon: "📣" },
-    { href: "/chat", label: "Chat grupal", icon: "💬" },
-    { href: "/mensajes", label: "Mensajes", icon: "✉️" },
-    { href: "/eventos", label: "Eventos", icon: "📆" },
-    { href: "/miembros", label: "Miembros", icon: "👥" },
-    { href: "/reuniones", label: "Reuniones", icon: "📅" },
-    { href: "/perfil", label: "Mi perfil", icon: "👤" },
-    ...(isAdmin ? [{ href: "/admin", label: "Administración", icon: "⚙️" }] : []),
+    { href: "/cursos", label: "Cursos", icon: "cursos" },
+    { href: "/comunidad", label: "Comunidad", icon: "comunidad" },
+    { href: "/chat", label: "Chat grupal", icon: "chat" },
+    { href: "/mensajes", label: "Mensajes", icon: "mensajes" },
+    { href: "/eventos", label: "Eventos", icon: "eventos" },
+    { href: "/miembros", label: "Miembros", icon: "miembros" },
+    { href: "/reuniones", label: "Reuniones", icon: "reuniones" },
+    { href: "/perfil", label: "Mi perfil", icon: "perfil" },
+    ...(isAdmin ? [{ href: "/admin", label: "Administración", icon: "admin" }] : []),
   ];
 
   const footer = (

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Headset, X, ChevronRight, PenLine } from "lucide-react";
 import { createTicket } from "@/app/actions/extras";
 import { ActionForm } from "@/components/forms";
 
@@ -35,7 +36,7 @@ export function SupportButton({ topics, userName }: { topics: SupportTopic[]; us
         className="group fixed bottom-5 right-5 z-[65] flex h-14 items-center gap-2 rounded-full bg-brand pl-4 pr-5 font-semibold text-on-brand shadow-[0_12px_40px_-10px_rgba(212,162,78,.8)] transition hover:-translate-y-0.5 hover:bg-brand-light"
       >
         <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-brand/40 [animation-duration:3s]" />
-        <span className="text-xl">{open ? "✕" : "💬"}</span>
+        {open ? <X strokeWidth={2} className="h-5 w-5" /> : <Headset strokeWidth={1.8} className="h-5 w-5" />}
         <span className="hidden text-sm sm:inline">{open ? "Cerrar" : "Soporte"}</span>
       </button>
 
@@ -62,12 +63,12 @@ export function SupportButton({ topics, userName }: { topics: SupportTopic[]; us
                       <span className="block text-sm font-semibold">{t.label}</span>
                       {t.description && <span className="block truncate text-xs text-muted">{t.description}</span>}
                     </span>
-                    <span className="text-muted">›</span>
+                    <ChevronRight strokeWidth={1.6} className="h-4 w-4 text-brand/70" />
                   </button>
                 ))}
                 {topics.length === 0 && <p className="p-3 text-sm text-muted">Escríbenos dejando una solicitud.</p>}
                 <button onClick={() => setForm(true)} className="mt-2 w-full rounded-md px-3 py-2.5 text-center text-sm font-semibold text-brand hover:bg-surface-2">
-                  ✍️ Dejar una solicitud escrita
+                  <PenLine strokeWidth={1.6} className="mr-1.5 inline h-4 w-4" />Dejar una solicitud escrita
                 </button>
                 <Link href="/soporte" onClick={close} className="block rounded-md px-3 py-2 text-center text-xs text-muted hover:text-ink">
                   Ver mis solicitudes
@@ -88,7 +89,7 @@ export function SupportButton({ topics, userName }: { topics: SupportTopic[]; us
                     Escribir por WhatsApp{topic.contact_name ? ` a ${topic.contact_name.split(" ")[0]}` : ""}
                   </a>
                 )}
-                <button onClick={() => setForm(true)} className="btn-ghost w-full">✍️ Dejar una solicitud escrita</button>
+                <button onClick={() => setForm(true)} className="btn-ghost w-full"><PenLine strokeWidth={1.6} className="h-4 w-4 text-brand" />Dejar una solicitud escrita</button>
               </div>
             )}
 

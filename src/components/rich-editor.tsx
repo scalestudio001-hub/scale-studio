@@ -6,6 +6,11 @@ import Image from "@tiptap/extension-image";
 import Youtube from "@tiptap/extension-youtube";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useRef, useState } from "react";
+import {
+  Bold, Italic, Underline, Strikethrough, Code, List, ListOrdered, Quote, SquareCode, ImagePlus, Link2, Minus, MonitorPlay, Undo2, Redo2,
+} from "lucide-react";
+
+const I = { strokeWidth: 1.7, className: "h-[18px] w-[18px]" };
 import { getBrowserClient } from "@/lib/supabase/client";
 
 function Btn({ on, active, title, children }: { on: () => void; active?: boolean; title: string; children: React.ReactNode }) {
@@ -16,7 +21,7 @@ function Btn({ on, active, title, children }: { on: () => void; active?: boolean
       aria-label={title}
       onMouseDown={(e) => e.preventDefault()}
       onClick={on}
-      className={`grid h-9 min-w-9 place-items-center rounded px-1.5 text-sm font-semibold transition ${active ? "bg-brand-soft text-brand" : "text-muted hover:bg-surface-2 hover:text-ink"}`}
+      className={`grid h-9 min-w-9 place-items-center rounded px-1.5 text-sm font-semibold transition ${active ? "bg-brand-soft text-brand" : "text-brand/70 hover:bg-surface-2 hover:text-brand"}`}
     >
       {children}
     </button>
@@ -35,18 +40,18 @@ function Toolbar({ editor, onImage, uploading }: { editor: Editor; onImage: () =
         </Btn>
       ))}
       <Sep />
-      <Btn title="Negrita" active={editor.isActive("bold")} on={() => c().toggleBold().run()}><b>B</b></Btn>
-      <Btn title="Cursiva" active={editor.isActive("italic")} on={() => c().toggleItalic().run()}><i className="font-serif">I</i></Btn>
-      <Btn title="Subrayado" active={editor.isActive("underline")} on={() => c().toggleUnderline().run()}><u>U</u></Btn>
-      <Btn title="Tachado" active={editor.isActive("strike")} on={() => c().toggleStrike().run()}><s>S</s></Btn>
-      <Btn title="Código" active={editor.isActive("code")} on={() => c().toggleCode().run()}>{"</>"}</Btn>
+      <Btn title="Negrita" active={editor.isActive("bold")} on={() => c().toggleBold().run()}><Bold {...I} /></Btn>
+      <Btn title="Cursiva" active={editor.isActive("italic")} on={() => c().toggleItalic().run()}><Italic {...I} /></Btn>
+      <Btn title="Subrayado" active={editor.isActive("underline")} on={() => c().toggleUnderline().run()}><Underline {...I} /></Btn>
+      <Btn title="Tachado" active={editor.isActive("strike")} on={() => c().toggleStrike().run()}><Strikethrough {...I} /></Btn>
+      <Btn title="Código" active={editor.isActive("code")} on={() => c().toggleCode().run()}><Code {...I} /></Btn>
       <Sep />
-      <Btn title="Lista" active={editor.isActive("bulletList")} on={() => c().toggleBulletList().run()}>•≡</Btn>
-      <Btn title="Lista numerada" active={editor.isActive("orderedList")} on={() => c().toggleOrderedList().run()}>1≡</Btn>
-      <Btn title="Cita" active={editor.isActive("blockquote")} on={() => c().toggleBlockquote().run()}>❝</Btn>
-      <Btn title="Bloque de código" active={editor.isActive("codeBlock")} on={() => c().toggleCodeBlock().run()}>▤</Btn>
+      <Btn title="Lista" active={editor.isActive("bulletList")} on={() => c().toggleBulletList().run()}><List {...I} /></Btn>
+      <Btn title="Lista numerada" active={editor.isActive("orderedList")} on={() => c().toggleOrderedList().run()}><ListOrdered {...I} /></Btn>
+      <Btn title="Cita" active={editor.isActive("blockquote")} on={() => c().toggleBlockquote().run()}><Quote {...I} /></Btn>
+      <Btn title="Bloque de código" active={editor.isActive("codeBlock")} on={() => c().toggleCodeBlock().run()}><SquareCode {...I} /></Btn>
       <Sep />
-      <Btn title="Imagen" on={onImage}>{uploading ? "…" : "🖼"}</Btn>
+      <Btn title="Imagen" on={onImage}>{uploading ? "…" : <ImagePlus {...I} />}</Btn>
       <Btn
         title="Link"
         active={editor.isActive("link")}
@@ -58,9 +63,9 @@ function Toolbar({ editor, onImage, uploading }: { editor: Editor; onImage: () =
           else c().extendMarkRange("link").setLink({ href: url }).run();
         }}
       >
-        🔗
+        <Link2 {...I} />
       </Btn>
-      <Btn title="Separador" on={() => c().setHorizontalRule().run()}>—</Btn>
+      <Btn title="Separador" on={() => c().setHorizontalRule().run()}><Minus {...I} /></Btn>
       <Btn
         title="Video de YouTube"
         on={() => {
@@ -68,11 +73,11 @@ function Toolbar({ editor, onImage, uploading }: { editor: Editor; onImage: () =
           if (url) c().setYoutubeVideo({ src: url }).run();
         }}
       >
-        ▶
+        <MonitorPlay {...I} />
       </Btn>
       <Sep />
-      <Btn title="Deshacer" on={() => c().undo().run()}>↶</Btn>
-      <Btn title="Rehacer" on={() => c().redo().run()}>↷</Btn>
+      <Btn title="Deshacer" on={() => c().undo().run()}><Undo2 {...I} /></Btn>
+      <Btn title="Rehacer" on={() => c().redo().run()}><Redo2 {...I} /></Btn>
     </div>
   );
 }

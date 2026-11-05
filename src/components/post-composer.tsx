@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { Paperclip, Link2, MonitorPlay, BarChart3, Smile, type LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getBrowserClient } from "@/lib/supabase/client";
 import { createPost } from "@/app/actions/community";
@@ -125,7 +126,7 @@ export function PostComposer({
       </>
     );
 
-  const toolBtn = (t: Exclude<Tool, null>, icon: string, label: string) => (
+  const toolBtn = (t: Exclude<Tool, null>, Icon: LucideIcon, label: string) => (
     <button
       type="button"
       title={label}
@@ -134,9 +135,9 @@ export function PostComposer({
         setTool(tool === t ? null : t);
         if (t === "poll" && !poll.length) setPoll(["", ""]);
       }}
-      className={`grid h-10 w-10 place-items-center rounded-md text-lg transition ${tool === t ? "bg-brand-soft text-brand" : "text-muted hover:bg-surface-2 hover:text-ink"}`}
+      className={`grid h-10 w-10 place-items-center rounded-md transition ${tool === t ? "bg-brand-soft text-brand" : "text-brand/70 hover:bg-surface-2 hover:text-brand"}`}
     >
-      {icon}
+      <Icon strokeWidth={1.6} className="h-5 w-5" />
     </button>
   );
 
@@ -255,15 +256,15 @@ export function PostComposer({
           title="Imagen o video"
           aria-label="Adjuntar imagen o video"
           onClick={() => fileInput.current?.click()}
-          className="grid h-10 w-10 place-items-center rounded-md text-lg text-muted transition hover:bg-surface-2 hover:text-ink"
+          className="grid h-10 w-10 place-items-center rounded-md text-brand/70 transition hover:bg-surface-2 hover:text-brand"
         >
-          📎
+          <Paperclip strokeWidth={1.6} className="h-5 w-5" />
         </button>
         <input ref={fileInput} type="file" accept="image/*,video/*" className="hidden" onChange={(e) => pickFile(e.target.files?.[0])} />
-        {toolBtn("link", "🔗", "Link")}
-        {toolBtn("video", "▶️", "Video de YouTube o Vimeo")}
-        {toolBtn("poll", "📊", "Encuesta")}
-        {toolBtn("emoji", "😊", "Emojis")}
+        {toolBtn("link", Link2, "Link")}
+        {toolBtn("video", MonitorPlay, "Video de YouTube o Vimeo")}
+        {toolBtn("poll", BarChart3, "Encuesta")}
+        {toolBtn("emoji", Smile, "Emojis")}
         <select value={category} onChange={(e) => setCategory(e.target.value)} className="input ml-1 h-10 w-auto py-0 text-sm">
           {cats.map((c) => (
             <option key={c}>{c}</option>
