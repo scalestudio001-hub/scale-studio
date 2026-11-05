@@ -96,3 +96,36 @@ export function announcementEmail(author: string, title: string, body: string, p
     }),
   };
 }
+
+export function meetingEmail(kind: "agendada" | "cancelada", opts: { forCoach: boolean; otherName: string; when: string; topic: string; url?: string | null }) {
+  const booked = kind === "agendada";
+  return {
+    subject: booked ? `📅 Reunión agendada · ${opts.when}` : `❌ Reunión cancelada · ${opts.when}`,
+    html: layout({
+      eyebrow: booked ? "Reunión agendada" : "Reunión cancelada",
+      title: booked ? "¡Quedó agendada!" : "Se canceló la reunión",
+      accent: opts.when,
+      body: `<p style="margin:0 0 10px">${opts.forCoach ? "Alumno" : "Coach"}: <b style="color:#F3F2EE">${esc(opts.otherName)}</b></p>
+${opts.topic ? `<p style="margin:0 0 10px">Tema: ${esc(opts.topic)}</p>` : ""}
+${booked && opts.url ? `<p style="margin:0 0 10px">Link de la reunión: <a href="${esc(opts.url)}" style="color:#D4A24E">${esc(opts.url)}</a></p>` : ""}
+${booked && !opts.forCoach ? `<p style="margin:14px 0 0;color:#a9a69f">Te esperamos máximo 15 minutos. Si no puedes asistir, cancela desde la plataforma para liberar el horario.</p>` : ""}
+${!booked && !opts.forCoach ? `<p style="margin:14px 0 0">Puedes agendar un nuevo horario cuando quieras desde la plataforma.</p>` : ""}`,
+      cta: "Ver mis reuniones",
+      ctaUrl: `${SITE_URL}/reuniones`,
+    }),
+  };
+}
+
+export function blockedEmail(name: string) {
+  const n = esc(name.split(" ")[0] || "");
+  return {
+    subject: `Tu acceso a ${SITE_NAME} está pausado`,
+    html: layout({
+      eyebrow: "Cuenta pausada",
+      title: `Hola${n ? `, ${n}` : ""}`,
+      accent: "Tu acceso quedó en pausa.",
+      body: `<p style="margin:0 0 14px">Te avisamos que tu acceso a la plataforma de ${esc(SITE_NAME)} fue pausado por el equipo.</p>
+<p style="margin:0">Si crees que es un error o quieres reactivarlo, responde este correo y lo revisamos contigo.</p>`,
+    }),
+  };
+}

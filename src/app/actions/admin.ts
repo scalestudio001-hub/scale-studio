@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireActive, requireAdmin } from "@/lib/auth";
 import { str } from "@/lib/utils";
-import { approvalEmail, sendEmail } from "@/lib/email";
+import { approvalEmail, blockedEmail, sendEmail } from "@/lib/email";
 import type { AdminUser } from "@/lib/types";
 
 type S = { error?: string; ok?: string } | undefined;
@@ -49,6 +49,10 @@ export async function updateUser(fd: FormData) {
       planName = plan?.name ?? null;
     }
     await sendEmail({ to: before.email, ...approvalEmail(before.full_name, planName) });
+  }
+  // Correo de cuenta pausada cuando se bloquea
+  if (before && before.status !== "blocked" && newStatus === "blocked" && before.email) {
+    await sendEmail({ to: before.email, ...blockedEmail(before.full_name) });
   }
   revalidatePath("/admin");
 }

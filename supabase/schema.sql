@@ -391,3 +391,117 @@ create policy chat_files_insert on storage.objects for insert to authenticated
               and public.can_access_channel(((storage.foldername(name))[1])::uuid));
 create policy chat_files_delete on storage.objects for delete to authenticated
   using (bucket_id = 'chat' and ((storage.foldername(name))[2] = auth.uid()::text or public.is_admin()));
+
+-- =====================================================================
+--  REUNIONES CON COACHES
+-- =====================================================================
+create table if not exists public.coaches (
+  user_id      uuid primary key references public.profiles (id) on delete cascade,
+  specialty    text not null default '',
+  bio          text,
+  meeting_url  text,
+  duration_min int  not null default 60 check (duration_min between 15 and 240),
+  active       boolean not null default true,
+  created_at   timestamptz not null default now()
+);
+create table if not exists public.coach_slots (
+  id         uuid primary key default gen_random_uuid(),
+  coach_id   uuid not null references public.coaches (user_id) on delete cascade,
+  starts_at  timestamptz not null,
+  ends_at    timestamptz not null check (ends_at > starts_at),
+  created_at timestamptz not null default now(),
+  unique (coach_id, starts_at)
+);
+create index if not exists coach_slots_time_idx on public.coach_slots (starts_at);
+create table if not exists public.meetings (
+  id           uuid primary key default gen_random_uuid(),
+  slot_id      uuid references public.coach_slots (id) on delete set null,
+  coach_id     uuid not null references public.profiles (id) on delete cascade,
+  student_id   uuid not null references public.profiles (id) on delete cascade,
+  starts_at    timestamptz not null,
+  ends_at      timestamptz not null,
+  topic        text not null default '',
+  status       text not null default 'agendada' check (status in ('agendada','realizada','cancelada','no_asistio')),
+  meeting_url  text,
+  coach_notes  text,
+  cancelled_by uuid references public.profiles (id) on delete set null,
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now()
+);
+create index if not exists meetings_student_idx on public.meetings (student_id, starts_at desc);
+create index if not exists meetings_coach_idx on public.meetings (coach_id, starts_at desc);
+create unique index if not exists meetings_slot_active_uq on public.meetings (slot_id) where status <> 'cancelada';
+
+alter table public.coaches enable row level security;
+alter table public.coach_slots enable row level security;
+alter table public.meetings enable row level security;
+drop policy if exists coaches_select on public.coaches;
+drop policy if exists coaches_admin on public.coaches;
+drop policy if exists slots_select on public.coach_slots;
+drop policy if exists slots_admin on public.coach_slots;
+drop policy if exists meetings_select on public.meetings;
+drop policy if exists meetings_admin_update on public.meetings;
+create policy coaches_select on public.coaches for select to authenticated using (public.is_active());
+create policy coaches_admin on public.coaches for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy slots_select on public.coach_slots for select to authenticated using (public.is_active());
+create policy slots_admin on public.coach_slots for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy meetings_select on public.meetings for select to authenticated using (student_id = auth.uid() or public.is_admin());
+create policy meetings_admin_update on public.meetings for update to authenticated using (public.is_admin()) with check (public.is_admin());
+
+create or replace function public.book_slot(sid uuid, p_topic text)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare s coach_slots; c coaches; mid uuid;
+begin
+  if not public.is_active() then raise exception 'Tu cuenta no está activa'; end if;
+  select * into s from coach_slots where id = sid for update;
+  if not found then raise exception 'Ese horario ya no existe'; end if;
+  if s.starts_at < now() + interval '1 hour' then raise exception 'Ese horario ya pasó o es muy pronto para agendarlo'; end if;
+  if exists (select 1 from meetings where slot_id = sid and status <> 'cancelada') then
+    raise exception 'Ese horario ya fue tomado por otra persona';
+  end if;
+  if s.coach_id = auth.uid() then raise exception 'No puedes agendar contigo mismo'; end if;
+  select * into c from coaches where user_id = s.coach_id;
+  insert into meetings (slot_id, coach_id, student_id, starts_at, ends_at, topic, meeting_url)
+  values (sid, s.coach_id, auth.uid(), s.starts_at, s.ends_at, left(coalesce(p_topic, ''), 500), c.meeting_url)
+  returning id into mid;
+  return mid;
+end;
+$$;
+create or replace function public.cancel_meeting(mid uuid)
+returns void language plpgsql security definer set search_path = public as $$
+declare m meetings;
+begin
+  select * into m from meetings where id = mid;
+  if not found then raise exception 'Reunión no encontrada'; end if;
+  if not (public.is_admin() or (m.student_id = auth.uid() and m.status = 'agendada')) then raise exception 'No autorizado'; end if;
+  update meetings set status = 'cancelada', cancelled_by = auth.uid(), updated_at = now() where id = mid;
+end;
+$$;
+create or replace function public.taken_slot_ids()
+returns setof uuid language sql stable security definer set search_path = public as $$
+  select slot_id from meetings
+  where status <> 'cancelada' and slot_id is not null and starts_at > now() - interval '1 day' and public.is_active();
+$$;
+revoke execute on function public.book_slot(uuid, text) from public, anon;
+revoke execute on function public.cancel_meeting(uuid) from public, anon;
+revoke execute on function public.taken_slot_ids() from public, anon;
+grant execute on function public.book_slot(uuid, text) to authenticated;
+grant execute on function public.cancel_meeting(uuid) to authenticated;
+grant execute on function public.taken_slot_ids() to authenticated;
+create or replace function public.meeting_contacts(mid uuid)
+returns table (coach_name text, coach_email text, student_name text, student_email text)
+language plpgsql stable security definer set search_path = public as $$
+begin
+  if not exists (select 1 from meetings m where m.id = mid and (m.student_id = auth.uid() or m.coach_id = auth.uid() or public.is_admin())) then
+    raise exception 'No autorizado';
+  end if;
+  return query
+    select pc.full_name, uc.email::text, ps.full_name, us.email::text
+    from meetings m
+    join profiles pc on pc.id = m.coach_id join auth.users uc on uc.id = m.coach_id
+    join profiles ps on ps.id = m.student_id join auth.users us on us.id = m.student_id
+    where m.id = mid;
+end;
+$$;
+revoke execute on function public.meeting_contacts(uuid) from public, anon;
+grant execute on function public.meeting_contacts(uuid) to authenticated;
