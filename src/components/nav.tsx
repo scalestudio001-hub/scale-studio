@@ -48,7 +48,7 @@ export function Nav({ items, footer }: { items: Item[]; footer: React.ReactNode 
         </div>
       )}
       {/* Escritorio */}
-      <aside className="fixed bottom-0 left-0 top-16 hidden w-64 flex-col justify-between border-r border-line bg-surface p-4 lg:flex">
+      <aside className="fixed bottom-0 left-0 top-16 hidden w-64 flex-col justify-between border-r border-line bg-surface/80 p-4 backdrop-blur-md lg:flex">
         {links}
         {footer}
       </aside>

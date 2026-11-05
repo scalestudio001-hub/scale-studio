@@ -3,6 +3,7 @@ import { requireActive } from "@/lib/auth";
 import { logout } from "@/app/actions/auth";
 import { Nav } from "@/components/nav";
 import { Avatar, Logo } from "@/components/ui";
+import { AppBackground } from "@/components/backgrounds";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { profile } = await requireActive();
@@ -28,7 +29,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="relative isolate min-h-screen">
+      <AppBackground />
       <header className="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b border-line bg-bg/85 px-4 backdrop-blur lg:px-6">
         <Logo />
         <div className="flex items-center gap-2">
@@ -39,7 +41,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </div>
       </header>
       <main className="px-4 pb-16 pt-24 lg:ml-64 lg:px-10">
-        <div className="mx-auto max-w-6xl">{children}</div>
+        <div className="page-in mx-auto max-w-6xl">{children}</div>
       </main>
     </div>
   );
