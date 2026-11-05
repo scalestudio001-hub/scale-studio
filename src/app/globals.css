@@ -52,7 +52,7 @@ body {
 }
 
 @utility card {
-  @apply relative rounded-md border border-line bg-surface/85 backdrop-blur-[2px];
+  @apply relative rounded-md border border-line bg-surface/90;
 }
 
 @utility card-hover {

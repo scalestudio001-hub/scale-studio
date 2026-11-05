@@ -6,12 +6,12 @@ import { useState } from "react";
 
 type Item = { href: string; label: string; icon: string };
 
-export function Nav({ items, footer }: { items: Item[]; footer: React.ReactNode }) {
+export function Nav({ items, footer, variant }: { items: Item[]; footer: React.ReactNode; variant: "mobile" | "desktop" }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   const links = (
-    <nav className="flex min-h-0 flex-col gap-0.5 overflow-y-auto">
+    <nav className="flex flex-col gap-0.5">
       {items.map((it) => {
         const active = pathname === it.href || pathname.startsWith(it.href + "/");
         return (
@@ -31,6 +31,14 @@ export function Nav({ items, footer }: { items: Item[]; footer: React.ReactNode 
     </nav>
   );
 
+  if (variant === "desktop")
+    return (
+      <aside className="fixed bottom-0 left-0 top-16 z-40 hidden w-64 flex-col gap-4 overflow-y-auto border-r border-line bg-surface/80 p-4 backdrop-blur-md lg:flex">
+        {links}
+        <div className="mt-auto">{footer}</div>
+      </aside>
+    );
+
   return (
     <>
       {/* Móvil */}
@@ -42,16 +50,11 @@ export function Nav({ items, footer }: { items: Item[]; footer: React.ReactNode 
         {open ? "✕" : "☰"}
       </button>
       {open && (
-        <div className="fixed inset-x-0 top-16 z-40 border-b border-line bg-surface p-4 shadow-lg lg:hidden">
+        <div className="fixed inset-x-0 top-16 z-40 max-h-[calc(100svh-4rem)] overflow-y-auto border-b border-line bg-surface p-4 shadow-lg lg:hidden">
           {links}
           <div className="mt-4 border-t border-line pt-4">{footer}</div>
         </div>
       )}
-      {/* Escritorio */}
-      <aside className="fixed bottom-0 left-0 top-16 hidden w-64 flex-col justify-between border-r border-line bg-surface/80 p-4 backdrop-blur-md lg:flex lg:gap-4">
-        {links}
-        {footer}
-      </aside>
     </>
   );
 }
