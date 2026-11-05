@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/auth";
 import { addModule, deleteCourse, deleteLesson, deleteModule, saveCourse, saveLessonOrder, saveModule } from "@/app/actions/admin";
 import { createLessonDraft } from "@/app/actions/lesson-editor";
 import { ActionForm, ConfirmButton, SubmitButton } from "@/components/forms";
+import { CoverUploader } from "@/components/cover-uploader";
 import { toEmbedUrl } from "@/lib/utils";
 import type { Course, Lesson, Module } from "@/lib/types";
 
@@ -49,8 +50,8 @@ export default async function AdminCoursePage({ params }: PageProps<"/admin/curs
             <textarea name="description" defaultValue={course.description ?? ""} className="input min-h-24" />
           </div>
           <div>
-            <label className="label">Portada (link de imagen 16:9)</label>
-            <input name="cover_url" defaultValue={course.cover_url ?? ""} className="input" placeholder="https://…" />
+            <label className="label">Portada del curso</label>
+            <CoverUploader initial={course.cover_url} />
           </div>
           <label className="flex cursor-pointer items-center gap-3 text-sm">
             <input type="checkbox" name="published" defaultChecked={course.published} className="h-4 w-4 accent-[var(--brand)]" />

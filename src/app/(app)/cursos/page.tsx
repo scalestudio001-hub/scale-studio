@@ -52,7 +52,13 @@ function CourseCard({ course: c }: { course: Awaited<ReturnType<typeof getCatalo
           // eslint-disable-next-line @next/next/no-img-element
           <img src={c.cover_url} alt={c.title} className="h-full w-full object-cover" />
         ) : (
-          <div className="relative grid h-full place-items-center overflow-hidden bg-[radial-gradient(circle_at_20%_10%,rgba(212,162,78,.22),transparent_60%)] p-6 text-center"><Chevron fill="rgba(212,162,78,.08)" className="absolute -right-6 -bottom-8 w-44" /><span className="display relative text-2xl">{c.title}</span></div>
+          <div className="relative flex h-full flex-col justify-end overflow-hidden bg-[radial-gradient(circle_at_15%_0%,rgba(212,162,78,.28),transparent_55%),linear-gradient(135deg,#141414,#050505)] p-6">
+            <div className="absolute inset-0 opacity-[.07] [background-image:linear-gradient(rgba(255,255,255,.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.6)_1px,transparent_1px)] [background-size:32px_32px]" />
+            <div className="absolute -right-[18%] -bottom-1/2 h-[180%] w-[38%] skew-x-[-32deg] bg-gradient-to-b from-[#E8C27A] via-brand to-[#8A6420] opacity-90" />
+            <Chevron fill="none" className="absolute right-[14%] top-[14%] w-24 stroke-brand/60 [stroke-width:3]" />
+            <span className="relative mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-brand"><span className="h-px w-6 bg-brand" />Curso</span>
+            <span className="display relative max-w-[70%] text-3xl leading-none">{c.title}</span>
+          </div>
         )}
         {!c.hasAccess && (
           <div className="absolute inset-0 grid place-items-center bg-black/65 text-ink">
