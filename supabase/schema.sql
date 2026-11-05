@@ -310,3 +310,60 @@ create policy likes_delete on public.post_likes for delete to authenticated
 --  update public.profiles set role = 'admin', status = 'active'
 --  where id = (select id from auth.users where email = 'tu@correo.com');
 -- =====================================================================
+
+-- =====================================================================
+--  CHAT GRUPAL (tiempo real)
+-- =====================================================================
+create table if not exists public.chat_channels (
+  id         uuid primary key default gen_random_uuid(),
+  name       text not null,
+  plan_id    uuid references public.plans (id) on delete cascade, -- null = todos los alumnos
+  position   int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.chat_messages (
+  id         uuid primary key default gen_random_uuid(),
+  channel_id uuid not null references public.chat_channels (id) on delete cascade,
+  author_id  uuid not null references public.profiles (id) on delete cascade,
+  body       text not null check (char_length(body) between 1 and 2000),
+  created_at timestamptz not null default now()
+);
+create index if not exists chat_messages_channel_idx on public.chat_messages (channel_id, created_at desc);
+
+create or replace function public.can_access_channel(cid uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select public.is_admin() or exists (
+    select 1 from chat_channels c, profiles p
+    where c.id = cid and p.id = auth.uid() and p.status = 'active'
+      and (c.plan_id is null or c.plan_id = p.plan_id)
+  );
+$$;
+revoke execute on function public.can_access_channel(uuid) from public, anon;
+grant execute on function public.can_access_channel(uuid) to authenticated;
+
+alter table public.chat_channels enable row level security;
+alter table public.chat_messages enable row level security;
+
+drop policy if exists chat_channels_select on public.chat_channels;
+drop policy if exists chat_channels_admin on public.chat_channels;
+drop policy if exists chat_messages_select on public.chat_messages;
+drop policy if exists chat_messages_insert on public.chat_messages;
+drop policy if exists chat_messages_delete on public.chat_messages;
+create policy chat_channels_select on public.chat_channels for select to authenticated
+  using (public.can_access_channel(id));
+create policy chat_channels_admin on public.chat_channels for all to authenticated
+  using (public.is_admin()) with check (public.is_admin());
+create policy chat_messages_select on public.chat_messages for select to authenticated
+  using (public.can_access_channel(channel_id));
+create policy chat_messages_insert on public.chat_messages for insert to authenticated
+  with check (author_id = auth.uid() and public.can_access_channel(channel_id));
+create policy chat_messages_delete on public.chat_messages for delete to authenticated
+  using (author_id = auth.uid() or public.is_admin());
+
+-- Tiempo real (si da error "already member", ignóralo)
+alter publication supabase_realtime add table public.chat_messages;
+alter table public.chat_messages replica identity full;
+
+insert into public.chat_channels (name, position)
+select 'General', 0 where not exists (select 1 from public.chat_channels);

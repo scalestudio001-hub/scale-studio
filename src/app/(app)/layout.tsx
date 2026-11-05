@@ -11,7 +11,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   const items = [
     { href: "/cursos", label: "Cursos", icon: "📚" },
-    { href: "/comunidad", label: "Comunidad", icon: "💬" },
+    { href: "/comunidad", label: "Comunidad", icon: "📣" },
+    { href: "/chat", label: "Chat grupal", icon: "💬" },
     { href: "/perfil", label: "Mi perfil", icon: "👤" },
     ...(isAdmin ? [{ href: "/admin", label: "Administración", icon: "⚙️" }] : []),
   ];
