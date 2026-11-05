@@ -54,6 +54,17 @@ export interface Lesson {
   resources: string | null;
   duration_min: number | null;
   position: number;
+  content_html?: string | null;
+  video_path?: string | null;
+  files?: LessonFile[];
+  published?: boolean;
+}
+
+export interface LessonFile {
+  name: string;
+  path: string;
+  size: number;
+  type: string;
 }
 
 export interface ModuleWithLessons extends Module {

@@ -7,6 +7,8 @@ import { SubmitButton } from "@/components/forms";
 import { ProgressBar, RichText } from "@/components/ui";
 import { parseResources, toEmbedUrl } from "@/lib/utils";
 import { LessonQuestions, type LessonComment } from "./questions";
+import { ResourceList, type ResourceItem } from "@/components/resource-list";
+import type { LessonFile } from "@/lib/types";
 
 export default async function LessonPage({ params }: PageProps<"/cursos/[courseId]/[lessonId]">) {
   const { supabase, user, profile } = await requireActive();
@@ -32,8 +34,19 @@ export default async function LessonPage({ params }: PageProps<"/cursos/[courseI
   ]);
   const isDone = done.has(lesson.id);
   const completed = lessons.filter((l) => done.has(l.id)).length;
-  const embed = toEmbedUrl(lesson.video_url);
-  const resources = parseResources(lesson.resources);
+  const embed = lesson.video_path ? null : toEmbedUrl(lesson.video_url);
+  const files = (lesson.files ?? []) as LessonFile[];
+  const paths = [lesson.video_path, ...files.map((f) => f.path)].filter((x): x is string => !!x);
+  const signed = new Map<string, string>();
+  if (paths.length) {
+    const { data: urls } = await supabase.storage.from("lessons").createSignedUrls(paths, 60 * 60 * 6);
+    urls?.forEach((u) => u.path && u.signedUrl && signed.set(u.path, u.signedUrl));
+  }
+  const videoFile = lesson.video_path ? signed.get(lesson.video_path) : null;
+  const resources: ResourceItem[] = [
+    ...files.filter((f) => signed.has(f.path)).map((f) => ({ name: f.name, url: signed.get(f.path)!, type: f.type, size: f.size })),
+    ...parseResources(lesson.resources).map((r) => ({ name: r.label, url: r.href, type: "link", external: true })),
+  ];
 
   return (
     <div className="grid gap-6 xl:grid-cols-[300px_1fr]">
@@ -77,7 +90,11 @@ export default async function LessonPage({ params }: PageProps<"/cursos/[courseI
       {/* Clase */}
       <article className="min-w-0">
         <div className="card overflow-hidden">
-          {embed ? (
+          {videoFile ? (
+            <div className="aspect-video bg-black">
+              <video src={videoFile} controls playsInline controlsList="nodownload" className="h-full w-full" />
+            </div>
+          ) : embed ? (
             <div className="aspect-video bg-black">
               <iframe
                 src={embed}
@@ -104,22 +121,14 @@ export default async function LessonPage({ params }: PageProps<"/cursos/[courseI
               </form>
             </div>
 
-            {lesson.description && <RichText text={lesson.description} className="mt-5 text-[15px] text-ink/85" />}
-
-            {resources.length > 0 && (
-              <div className="mt-6 rounded-md bg-surface-2 p-5">
-                <p className="mb-3 text-sm font-bold">📎 Recursos de la clase</p>
-                <ul className="space-y-2">
-                  {resources.map((r, i) => (
-                    <li key={i}>
-                      <a href={r.href} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-brand underline underline-offset-2">
-                        {r.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {lesson.content_html ? (
+              <div className="prose-lesson mt-5" dangerouslySetInnerHTML={{ __html: lesson.content_html }} />
+            ) : (
+              lesson.description && <RichText text={lesson.description} className="mt-5 text-[15px] text-ink/85" />
             )}
+            {lesson.published === false && <p className="mt-4 rounded-md border border-brand/40 bg-brand-soft px-3 py-2 text-xs text-brand">👁 Esta clase está en borrador: solo el equipo la ve.</p>}
+
+            {resources.length > 0 && <ResourceList items={resources} />}
           </div>
         </div>
 

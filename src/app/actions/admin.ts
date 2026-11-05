@@ -223,3 +223,10 @@ export async function deleteLesson(fd: FormData) {
   await supabase.from("lessons").delete().eq("id", str(fd, "id"));
   revalidatePath(`/admin/cursos/${str(fd, "course_id")}`);
 }
+
+export async function saveLessonOrder(fd: FormData) {
+  const { supabase } = await requireAdmin();
+  await supabase.from("lessons").update({ position: num(str(fd, "position")) }).eq("id", str(fd, "id"));
+  revalidatePath(`/admin/cursos/${str(fd, "course_id")}`);
+  revalidatePath(`/cursos/${str(fd, "course_id")}`, "layout");
+}

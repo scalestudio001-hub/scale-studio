@@ -894,3 +894,35 @@ select * from (values
   ('Otro', 'Cualquier otra consulta', '💬', 4)
 ) v(label, description, emoji, position)
 where not exists (select 1 from public.support_topics);
+
+-- =====================================================================
+--  EDITOR DE CLASES: texto enriquecido, video subido, recursos
+-- =====================================================================
+alter table public.lessons add column if not exists content_html text;
+alter table public.lessons add column if not exists video_path text;
+alter table public.lessons add column if not exists files jsonb not null default '[]'::jsonb;
+alter table public.lessons add column if not exists published boolean not null default true;
+drop policy if exists lessons_select on public.lessons;
+create policy lessons_select on public.lessons for select to authenticated
+  using (public.is_admin() or (published and public.has_course_access(public.lesson_course(id))));
+
+insert into storage.buckets (id, name, public, file_size_limit)
+values ('lessons', 'lessons', false, 52428800)
+on conflict (id) do update set public = false, file_size_limit = excluded.file_size_limit;
+drop policy if exists lesson_files_select on storage.objects;
+drop policy if exists lesson_files_admin_insert on storage.objects;
+drop policy if exists lesson_files_admin_update on storage.objects;
+drop policy if exists lesson_files_admin_delete on storage.objects;
+create policy lesson_files_select on storage.objects for select to authenticated
+  using (bucket_id = 'lessons' and public.has_course_access(((storage.foldername(name))[1])::uuid));
+create policy lesson_files_admin_insert on storage.objects for insert to authenticated with check (bucket_id = 'lessons' and public.is_admin());
+create policy lesson_files_admin_update on storage.objects for update to authenticated using (bucket_id = 'lessons' and public.is_admin());
+create policy lesson_files_admin_delete on storage.objects for delete to authenticated using (bucket_id = 'lessons' and public.is_admin());
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('content', 'content', true, 10485760, array['image/*'])
+on conflict (id) do update set public = true;
+drop policy if exists content_admin_insert on storage.objects;
+drop policy if exists content_admin_delete on storage.objects;
+create policy content_admin_insert on storage.objects for insert to authenticated with check (bucket_id = 'content' and public.is_admin());
+create policy content_admin_delete on storage.objects for delete to authenticated using (bucket_id = 'content' and public.is_admin());

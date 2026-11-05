@@ -1,48 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
-import {
-  addLesson, addModule, deleteCourse, deleteLesson, deleteModule, saveCourse, saveLesson, saveModule,
-} from "@/app/actions/admin";
+import { addModule, deleteCourse, deleteLesson, deleteModule, saveCourse, saveLessonOrder, saveModule } from "@/app/actions/admin";
+import { createLessonDraft } from "@/app/actions/lesson-editor";
 import { ActionForm, ConfirmButton, SubmitButton } from "@/components/forms";
 import { toEmbedUrl } from "@/lib/utils";
 import type { Course, Lesson, Module } from "@/lib/types";
 
 const byPos = <T extends { position: number; created_at?: string }>(a: T, b: T) =>
   a.position - b.position || String(a.created_at ?? "").localeCompare(String(b.created_at ?? ""));
-
-function LessonFields({ l }: { l?: Lesson }) {
-  return (
-    <>
-      <div className="grid gap-3 sm:grid-cols-[1fr_110px_110px]">
-        <div>
-          <label className="label">Título de la clase</label>
-          <input name="title" defaultValue={l?.title} className="input" required />
-        </div>
-        <div>
-          <label className="label">Minutos</label>
-          <input name="duration_min" type="number" min={0} defaultValue={l?.duration_min ?? ""} className="input" />
-        </div>
-        <div>
-          <label className="label">Orden</label>
-          <input name="position" type="number" defaultValue={l?.position ?? ""} className="input" />
-        </div>
-      </div>
-      <div>
-        <label className="label">Link del video (Vimeo o Bunny.net)</label>
-        <input name="video_url" defaultValue={l?.video_url ?? ""} className="input" placeholder="https://vimeo.com/123456789" />
-      </div>
-      <div>
-        <label className="label">Descripción</label>
-        <textarea name="description" defaultValue={l?.description ?? ""} className="input min-h-24" />
-      </div>
-      <div>
-        <label className="label">Recursos — uno por línea: Nombre | link</label>
-        <textarea name="resources" defaultValue={l?.resources ?? ""} className="input min-h-20 font-mono text-xs" placeholder={"Plantilla de costeo | https://docs.google.com/...\nPresentación | https://..."} />
-      </div>
-    </>
-  );
-}
 
 export default async function AdminCoursePage({ params }: PageProps<"/admin/cursos/[courseId]">) {
   const { supabase } = await requireAdmin();
@@ -116,37 +82,37 @@ export default async function AdminCoursePage({ params }: PageProps<"/admin/curs
 
             <div className="divide-y divide-line">
               {m.lessons.map((l) => (
-                <details key={l.id} className="group">
-                  <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-3.5 hover:bg-surface-2">
-                    <span className="w-6 text-center font-display text-muted">{l.position}</span>
-                    <span className="flex-1 text-[15px]">{l.title}</span>
-                    {!toEmbedUrl(l.video_url) && <span className="chip border border-brand/40 text-brand">Sin video</span>}
-                    <span className="text-muted transition group-open:rotate-90">›</span>
-                  </summary>
-                  <div className="space-y-4 bg-bg/60 p-5">
-                    <ActionForm action={saveLesson} submitLabel="Guardar clase" buttonClassName="btn-primary h-10">
-                      <input type="hidden" name="id" value={l.id} />
-                      <input type="hidden" name="course_id" value={course.id} />
-                      <LessonFields l={l} />
-                    </ActionForm>
-                    <form action={deleteLesson}>
-                      <input type="hidden" name="id" value={l.id} />
-                      <input type="hidden" name="course_id" value={course.id} />
-                      <ConfirmButton message={`¿Eliminar la clase "${l.title}"?`} className="text-xs text-muted hover:text-red-400">Eliminar clase</ConfirmButton>
-                    </form>
-                  </div>
-                </details>
-              ))}
-              <details className="group">
-                <summary className="cursor-pointer list-none px-5 py-3.5 text-sm font-semibold text-brand hover:bg-surface-2">+ Agregar clase</summary>
-                <div className="bg-bg/60 p-5">
-                  <ActionForm action={addLesson} submitLabel="Agregar clase" buttonClassName="btn-primary h-10" resetOnSuccess>
-                    <input type="hidden" name="module_id" value={m.id} />
+                <div key={l.id} className="group flex items-center gap-3 px-5 py-3 transition hover:bg-surface-2">
+                  <span className="w-6 text-center font-display text-muted">{l.position}</span>
+                  <Link href={`/admin/cursos/${course.id}/clase/${l.id}`} className="min-w-0 flex-1">
+                    <span className="block truncate text-[15px] font-medium group-hover:text-brand">{l.title}</span>
+                    <span className="mt-0.5 flex flex-wrap gap-2 text-[11px] text-muted">
+                      {l.video_path ? "📹 Video subido" : toEmbedUrl(l.video_url) ? "🔗 Video por link" : "Sin video"}
+                      {(l.files?.length ?? 0) > 0 && <span>· 📎 {l.files!.length} recursos</span>}
+                      {l.duration_min ? <span>· {l.duration_min} min</span> : null}
+                    </span>
+                  </Link>
+                  {l.published === false && <span className="chip border border-line text-muted">Borrador</span>}
+                  <form action={saveLessonOrder} className="hidden items-center gap-1 sm:flex">
+                    <input type="hidden" name="id" value={l.id} />
                     <input type="hidden" name="course_id" value={course.id} />
-                    <LessonFields />
-                  </ActionForm>
+                    <input name="position" type="number" defaultValue={l.position} className="input h-8 w-16 px-2 py-0 text-xs" title="Orden" />
+                    <button className="text-xs text-muted hover:text-brand" title="Guardar orden">↵</button>
+                  </form>
+                  <Link href={`/admin/cursos/${course.id}/clase/${l.id}`} className="btn-ghost h-9 px-3 text-xs">✏️ Editar</Link>
+                  <form action={deleteLesson}>
+                    <input type="hidden" name="id" value={l.id} />
+                    <input type="hidden" name="course_id" value={course.id} />
+                    <ConfirmButton message={`¿Eliminar la clase "${l.title}"?`} className="px-1 text-xs text-muted hover:text-red-400">🗑️</ConfirmButton>
+                  </form>
                 </div>
-              </details>
+              ))}
+              <form action={createLessonDraft} className="flex flex-wrap gap-2 px-5 py-3">
+                <input type="hidden" name="module_id" value={m.id} />
+                <input type="hidden" name="course_id" value={course.id} />
+                <input name="title" className="input h-10 min-w-48 flex-1 py-0" placeholder="Título de la nueva clase" />
+                <SubmitButton className="btn-outline h-10" pendingText="Creando…">+ Agregar clase</SubmitButton>
+              </form>
             </div>
           </div>
         ))}
