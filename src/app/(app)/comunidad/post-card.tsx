@@ -4,12 +4,12 @@ import { Avatar, RichText } from "@/components/ui";
 import { timeAgo } from "@/lib/utils";
 import type { Post } from "@/lib/types";
 
-export type PostRow = Post & { post_likes: { user_id: string }[]; comments: { count: number }[] };
+export type PostRow = Post & { post_likes: { user_id: string }[]; comments: { id: string }[] };
 
 export function PostCard({ post, userId, full = false }: { post: PostRow; userId: string; full?: boolean }) {
   const liked = post.post_likes.some((l) => l.user_id === userId);
   const likes = post.post_likes.length;
-  const comments = post.comments?.[0]?.count ?? 0;
+  const comments = post.comments?.length ?? 0;
   const name = post.author?.full_name || "Alumno";
 
   return (

@@ -15,7 +15,7 @@ export default async function PostPage({ params }: PageProps<"/comunidad/[postId
   const [{ data: post }, { data: comments }] = await Promise.all([
     supabase
       .from("posts")
-      .select("*, author:profiles(full_name, avatar_url, role), post_likes(user_id), comments(count)")
+      .select("*, author:profiles(full_name, avatar_url, role), post_likes(user_id), comments(id)")
       .eq("id", postId)
       .maybeSingle<PostRow>(),
     supabase

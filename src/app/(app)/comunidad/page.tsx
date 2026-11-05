@@ -16,12 +16,13 @@ export default async function CommunityPage({ searchParams }: PageProps<"/comuni
 
   let q = supabase
     .from("posts")
-    .select("*, author:profiles(full_name, avatar_url, role), post_likes(user_id), comments(count)")
+    .select("*, author:profiles(full_name, avatar_url, role), post_likes(user_id), comments(id)")
     .order("pinned", { ascending: false })
     .order("created_at", { ascending: false })
     .limit(50);
   if (cat) q = q.eq("category", cat);
-  const { data } = await q;
+  const { data, error } = await q;
+  if (error) console.error("comunidad:", error.message);
   const posts = (data ?? []) as PostRow[];
   const isAdmin = profile.role === "admin";
   const cats = COMMUNITY_CATEGORIES.filter((c) => isAdmin || c !== "Anuncios");
@@ -58,7 +59,8 @@ export default async function CommunityPage({ searchParams }: PageProps<"/comuni
       </div>
 
       <div className="space-y-4">
-        {posts.length === 0 && <EmptyState title="Todavía no hay publicaciones" text="¡Sé el primero en escribir algo!" />}
+        {error && <p className="card p-4 text-sm text-red-400">No se pudieron cargar las publicaciones: {error.message}</p>}
+        {!error && posts.length === 0 && <EmptyState title="Todavía no hay publicaciones" text="¡Sé el primero en escribir algo!" />}
         {posts.map((p) => <PostCard key={p.id} post={p} userId={user.id} />)}
       </div>
     </div>
