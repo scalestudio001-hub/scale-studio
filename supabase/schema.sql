@@ -527,3 +527,35 @@ create policy avatars_update on storage.objects for update to authenticated
   using (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
 create policy avatars_delete on storage.objects for delete to authenticated
   using (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- =====================================================================
+--  ANUNCIOS (campana de notificaciones)
+-- =====================================================================
+create table if not exists public.announcements (
+  id         uuid primary key default gen_random_uuid(),
+  title      text not null check (char_length(title) between 1 and 120),
+  body       text not null default '' check (char_length(body) <= 2000),
+  link_url   text,
+  priority   text not null default 'normal' check (priority in ('normal','importante')),
+  author_id  uuid references public.profiles (id) on delete set null,
+  created_at timestamptz not null default now()
+);
+create index if not exists announcements_created_idx on public.announcements (created_at desc);
+create table if not exists public.announcement_reads (
+  announcement_id uuid not null references public.announcements (id) on delete cascade,
+  user_id         uuid not null references public.profiles (id) on delete cascade,
+  read_at         timestamptz not null default now(),
+  primary key (announcement_id, user_id)
+);
+alter table public.announcements enable row level security;
+alter table public.announcement_reads enable row level security;
+drop policy if exists ann_select on public.announcements;
+drop policy if exists ann_admin on public.announcements;
+drop policy if exists ann_reads_select on public.announcement_reads;
+drop policy if exists ann_reads_insert on public.announcement_reads;
+create policy ann_select on public.announcements for select to authenticated using (public.is_active());
+create policy ann_admin on public.announcements for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy ann_reads_select on public.announcement_reads for select to authenticated using (user_id = auth.uid() or public.is_admin());
+create policy ann_reads_insert on public.announcement_reads for insert to authenticated with check (user_id = auth.uid() and public.is_active());
+-- (si da error "already member", ignóralo)
+alter publication supabase_realtime add table public.announcements;

@@ -4,9 +4,14 @@ import { logout } from "@/app/actions/auth";
 import { Nav } from "@/components/nav";
 import { Avatar, Logo } from "@/components/ui";
 import { AppBackground } from "@/components/backgrounds";
+import { NotificationBell, type Announcement } from "@/components/notification-bell";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const { profile } = await requireActive();
+  const { profile, supabase, user } = await requireActive();
+  const [{ data: anns }, { data: reads }] = await Promise.all([
+    supabase.from("announcements").select("id, title, body, link_url, priority, created_at").order("created_at", { ascending: false }).limit(20),
+    supabase.from("announcement_reads").select("announcement_id").eq("user_id", user.id),
+  ]);
   const isAdmin = profile.role === "admin";
 
   const items = [
@@ -37,6 +42,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <header className="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b border-line bg-bg/85 px-4 backdrop-blur lg:px-6">
         <Logo />
         <div className="flex items-center gap-2">
+          <NotificationBell initial={(anns ?? []) as Announcement[]} initialRead={(reads ?? []).map((r) => r.announcement_id as string)} />
           <Link href="/perfil" className="hidden lg:block">
             <Avatar name={profile.full_name} url={profile.avatar_url} size={34} />
           </Link>
