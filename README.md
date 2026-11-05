@@ -44,13 +44,13 @@ La seguridad está en la base de datos: aunque alguien copie un link, solo ve la
    | `NEXT_PUBLIC_SUPABASE_URL` | el Project URL |
    | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | la anon key |
    | `NEXT_PUBLIC_SITE_NAME` | `Scale Studio` (o el nombre que quieran) |
-   | `NEXT_PUBLIC_SITE_URL` | la URL final, ej. `https://academia.scalestudio.cl` |
+   | `NEXT_PUBLIC_SITE_URL` | la URL final, ej. `https://scale-studio-academia.vercel.app` |
 
 4. **Deploy**.
 
 ### 3. Conectar la URL en Supabase
 En **Authentication → URL Configuration**:
-- **Site URL:** tu URL final (ej. `https://academia.scalestudio.cl`)
+- **Site URL:** tu URL final (ej. `https://scale-studio-academia.vercel.app`)
 - **Redirect URLs:** agrega `https://academia.scalestudio.cl/**`
 
 Esto hace que funcione el correo de "recuperar clave".
