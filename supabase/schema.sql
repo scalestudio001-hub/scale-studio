@@ -926,3 +926,12 @@ drop policy if exists content_admin_insert on storage.objects;
 drop policy if exists content_admin_delete on storage.objects;
 create policy content_admin_insert on storage.objects for insert to authenticated with check (bucket_id = 'content' and public.is_admin());
 create policy content_admin_delete on storage.objects for delete to authenticated using (bucket_id = 'content' and public.is_admin());
+
+-- Funciones de trigger: nadie las llama directamente
+revoke execute on function public.trg_comment_notify() from public, anon, authenticated;
+revoke execute on function public.trg_like_notify() from public, anon, authenticated;
+revoke execute on function public.trg_lesson_comment_notify() from public, anon, authenticated;
+revoke execute on function public.trg_ticket_notify() from public, anon, authenticated;
+revoke execute on function public.trg_event_notify() from public, anon, authenticated;
+revoke execute on function public.trg_meeting_notify() from public, anon, authenticated;
+revoke execute on function public.trg_dm_after() from public, anon, authenticated;
