@@ -16,7 +16,7 @@ export default async function CommunityPage({ searchParams }: PageProps<"/comuni
 
   let q = supabase
     .from("posts")
-    .select("*, author:profiles(full_name, avatar_url, role), post_likes(user_id), comments(id)")
+    .select("*, author:profiles!posts_author_id_fkey(full_name, avatar_url, role), post_likes(user_id), comments(id)")
     .order("pinned", { ascending: false })
     .order("created_at", { ascending: false })
     .limit(50);

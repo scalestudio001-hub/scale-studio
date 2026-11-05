@@ -20,7 +20,7 @@ export default async function ChatPage({ params }: PageProps<"/chat/[channelId]"
     supabase.from("chat_channels").select("id, name, plan_id").order("position").order("created_at"),
     supabase
       .from("chat_messages")
-      .select("id, channel_id, author_id, body, created_at, author:profiles(full_name, avatar_url, role)")
+      .select("id, channel_id, author_id, body, created_at, author:profiles!chat_messages_author_id_fkey(full_name, avatar_url, role)")
       .eq("channel_id", channelId)
       .order("created_at", { ascending: false })
       .limit(100),

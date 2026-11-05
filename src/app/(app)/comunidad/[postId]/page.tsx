@@ -15,12 +15,12 @@ export default async function PostPage({ params }: PageProps<"/comunidad/[postId
   const [{ data: post }, { data: comments }] = await Promise.all([
     supabase
       .from("posts")
-      .select("*, author:profiles(full_name, avatar_url, role), post_likes(user_id), comments(id)")
+      .select("*, author:profiles!posts_author_id_fkey(full_name, avatar_url, role), post_likes(user_id), comments(id)")
       .eq("id", postId)
       .maybeSingle<PostRow>(),
     supabase
       .from("comments")
-      .select("*, author:profiles(full_name, avatar_url, role)")
+      .select("*, author:profiles!comments_author_id_fkey(full_name, avatar_url, role)")
       .eq("post_id", postId)
       .order("created_at"),
   ]);
