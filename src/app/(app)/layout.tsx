@@ -4,13 +4,17 @@ import { logout } from "@/app/actions/auth";
 import { Nav } from "@/components/nav";
 import { Avatar, Logo } from "@/components/ui";
 import { AppBackground } from "@/components/backgrounds";
-import { NotificationBell, type Announcement } from "@/components/notification-bell";
+import { NotificationBell, type Announcement, type Notif } from "@/components/notification-bell";
+import { SupportButton, type SupportTopic } from "@/components/support-button";
+import { HeaderSearch } from "@/components/header-search";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { profile, supabase, user } = await requireActive();
-  const [{ data: anns }, { data: reads }] = await Promise.all([
+  const [{ data: anns }, { data: reads }, { data: notifs }, { data: topics }] = await Promise.all([
     supabase.from("announcements").select("id, title, body, link_url, priority, created_at").order("created_at", { ascending: false }).limit(20),
     supabase.from("announcement_reads").select("announcement_id").eq("user_id", user.id),
+    supabase.from("notifications").select("id, type, title, body, link, read_at, created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(40),
+    supabase.from("support_topics").select("id, label, description, emoji, contact_name, whatsapp").eq("active", true).order("position"),
   ]);
   const isAdmin = profile.role === "admin";
 
@@ -18,6 +22,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     { href: "/cursos", label: "Cursos", icon: "📚" },
     { href: "/comunidad", label: "Comunidad", icon: "📣" },
     { href: "/chat", label: "Chat grupal", icon: "💬" },
+    { href: "/mensajes", label: "Mensajes", icon: "✉️" },
+    { href: "/eventos", label: "Eventos", icon: "📆" },
     { href: "/miembros", label: "Miembros", icon: "👥" },
     { href: "/reuniones", label: "Reuniones", icon: "📅" },
     { href: "/perfil", label: "Mi perfil", icon: "👤" },
@@ -42,7 +48,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <header className="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b border-line bg-bg/85 px-4 backdrop-blur lg:px-6">
         <Logo />
         <div className="flex items-center gap-2">
-          <NotificationBell initial={(anns ?? []) as Announcement[]} initialRead={(reads ?? []).map((r) => r.announcement_id as string)} />
+          <HeaderSearch />
+          <NotificationBell
+            initial={(anns ?? []) as Announcement[]}
+            initialRead={(reads ?? []).map((r) => r.announcement_id as string)}
+            initialNotifs={(notifs ?? []) as Notif[]}
+            userId={user.id}
+          />
           <Link href="/perfil" className="hidden lg:block">
             <Avatar name={profile.full_name} url={profile.avatar_url} size={34} />
           </Link>
@@ -52,6 +64,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <main className="px-4 pb-16 pt-24 lg:ml-64 lg:px-10">
         <div className="page-in mx-auto max-w-6xl">{children}</div>
       </main>
+      <SupportButton topics={(topics ?? []) as SupportTopic[]} userName={profile.full_name.split(" ")[0] || "un alumno"} />
     </div>
   );
 }

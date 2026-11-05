@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { requireActive } from "@/lib/auth";
 import { Avatar, RichText } from "@/components/ui";
 import { timeAgo } from "@/lib/utils";
+import { openDm } from "@/app/actions/extras";
+import { SubmitButton } from "@/components/forms";
 import type { Profile } from "@/lib/types";
 
 export default async function MemberPage({ params }: PageProps<"/miembros/[userId]">) {
@@ -37,7 +39,14 @@ export default async function MemberPage({ params }: PageProps<"/miembros/[userI
             <div className="rounded-full bg-surface p-1.5 ring-2 ring-brand">
               <Avatar name={p.full_name} url={p.avatar_url} size={116} />
             </div>
-            {me && <Link href="/perfil" className="btn-outline h-10">✏️ Editar perfil</Link>}
+            {me ? (
+              <Link href="/perfil" className="btn-outline h-10">✏️ Editar perfil</Link>
+            ) : (
+              <form action={openDm}>
+                <input type="hidden" name="user_id" value={p.id} />
+                <SubmitButton className="btn-primary h-10" pendingText="Abriendo…">✉️ Enviar mensaje</SubmitButton>
+              </form>
+            )}
           </div>
           <h1 className="display mt-4 text-4xl">{p.full_name || "Alumno"}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-2">

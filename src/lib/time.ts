@@ -35,7 +35,7 @@ export const fmtDay = (d: string | Date) =>
   new Date(d).toLocaleDateString("es-CL", { timeZone: TZ, weekday: "long", day: "numeric", month: "long" });
 
 export const fmtTime = (d: string | Date) =>
-  new Date(d).toLocaleTimeString("es-CL", { timeZone: TZ, hour: "2-digit", minute: "2-digit" });
+  new Date(d).toLocaleTimeString("es-CL", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 
 export const fmtDateTime = (d: string | Date) => `${fmtDay(d)} · ${fmtTime(d)}`;
 

@@ -36,6 +36,9 @@ export default async function CoursePage({ params }: PageProps<"/cursos/[courseI
             <p className="text-sm font-semibold">Tu avance</p>
             <div className="mt-2"><ProgressBar value={progress} /></div>
             <p className="mt-1.5 text-xs text-muted">{completed} de {lessons.length} lecciones</p>
+            {lessons.length > 0 && completed === lessons.length && (
+              <Link href={`/cursos/${course.id}/certificado`} className="btn-outline mt-4 w-full">🎓 Ver mi certificado</Link>
+            )}
             {next && (
               <Link href={`/cursos/${course.id}/${next.id}`} className="btn-primary mt-4 w-full">
                 {completed === 0 ? "Empezar curso" : completed === lessons.length ? "Repasar" : "Continuar"} →

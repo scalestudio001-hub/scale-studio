@@ -34,7 +34,7 @@ const EMOJIS = [
   "🛒", "📱", "💡", "⏳", "☕", "🇨🇱",
 ];
 
-const hora = (iso: string) => new Date(iso).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" });
+const hora = (iso: string) => new Date(iso).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 
 function dia(iso: string) {
   const d = new Date(iso);

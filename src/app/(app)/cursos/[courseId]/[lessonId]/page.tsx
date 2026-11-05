@@ -6,9 +6,10 @@ import { toggleLesson } from "@/app/actions/progress";
 import { SubmitButton } from "@/components/forms";
 import { ProgressBar, RichText } from "@/components/ui";
 import { parseResources, toEmbedUrl } from "@/lib/utils";
+import { LessonQuestions, type LessonComment } from "./questions";
 
 export default async function LessonPage({ params }: PageProps<"/cursos/[courseId]/[lessonId]">) {
-  await requireActive();
+  const { supabase, user, profile } = await requireActive();
   const { courseId, lessonId } = await params;
   const data = await getCourseTree(courseId);
   if (!data) notFound();
@@ -21,7 +22,14 @@ export default async function LessonPage({ params }: PageProps<"/cursos/[courseI
   const prev = lessons[idx - 1];
   const next = lessons[idx + 1];
 
-  const done = await getCompletedLessonIds();
+  const [done, { data: qs }] = await Promise.all([
+    getCompletedLessonIds(),
+    supabase
+      .from("lesson_comments")
+      .select("id, lesson_id, author_id, parent_id, body, created_at, author:profiles!lesson_comments_author_id_fkey(full_name, avatar_url, role)")
+      .eq("lesson_id", lessonId)
+      .order("created_at"),
+  ]);
   const isDone = done.has(lesson.id);
   const completed = lessons.filter((l) => done.has(l.id)).length;
   const embed = toEmbedUrl(lesson.video_url);
@@ -114,6 +122,14 @@ export default async function LessonPage({ params }: PageProps<"/cursos/[courseI
             )}
           </div>
         </div>
+
+        <LessonQuestions
+          comments={(qs ?? []) as unknown as LessonComment[]}
+          lessonId={lesson.id}
+          courseId={course.id}
+          userId={user.id}
+          isAdmin={profile.role === "admin"}
+        />
 
         <div className="mt-5 flex justify-between gap-3">
           {prev ? (
