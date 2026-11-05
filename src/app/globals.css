@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
+/* =========================================================
+   ESTILO SCALE STUDIO — carbón, papel claro y dorado
+   Cambia estos valores para ajustar la marca
+   ========================================================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0e0e0e;          /* fondo general (carbón) */
+  --surface: #171717;     /* tarjetas */
+  --surface-2: #1f1f1f;   /* hover / bloques internos */
+  --ink: #f3f2ee;         /* texto principal (papel claro) */
+  --muted: #a9a69f;       /* texto secundario */
+  --line: #2a2a2a;        /* bordes */
+  --brand: #d4a24e;       /* dorado */
+  --brand-light: #e8c27a;
+  --brand-dark: #8a6420;
+  --brand-soft: rgba(212, 162, 78, 0.12);
+  --on-brand: #0e0e0e;    /* texto sobre dorado */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-light: var(--brand-light);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-soft: var(--brand-soft);
+  --color-on-brand: var(--on-brand);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-oswald), "Oswald", sans-serif;
+  --font-serif: var(--font-playfair), "Playfair Display", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  color-scheme: dark;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+::selection {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+@utility card {
+  @apply relative rounded-md border border-line bg-surface;
+}
+
+@utility card-hover {
+  @apply overflow-hidden transition duration-500 hover:-translate-y-1 hover:border-brand/40;
+  &::after {
+    content: "";
+    @apply absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-brand transition-transform duration-500;
+  }
+  &:hover::after {
+    @apply scale-x-100;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility input {
+  @apply w-full rounded-md border border-line bg-bg px-3.5 py-3 text-[15px] text-ink outline-none transition placeholder:text-muted/60 focus:border-brand focus:ring-2 focus:ring-brand/25;
+}
+
+@utility label {
+  @apply mb-1.5 block text-xs font-semibold uppercase tracking-[0.18em] text-muted;
+}
+
+@utility btn {
+  @apply inline-flex h-12 items-center justify-center gap-2 rounded-md px-5 text-sm font-semibold transition duration-300 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@utility btn-primary {
+  @apply btn bg-brand text-on-brand hover:-translate-y-0.5 hover:bg-brand-light hover:shadow-[0_10px_30px_-10px_rgba(212,162,78,0.6)];
+}
+
+@utility btn-ghost {
+  @apply btn border border-line bg-transparent text-ink hover:border-brand hover:text-brand;
+}
+
+@utility btn-outline {
+  @apply btn border-[1.5px] border-brand bg-transparent text-brand hover:bg-brand hover:text-on-brand;
+}
+
+@utility btn-danger {
+  @apply btn border border-red-900/60 bg-transparent text-red-400 hover:bg-red-950/40;
+}
+
+@utility chip {
+  @apply inline-flex items-center rounded-sm px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em];
+}
+
+@utility display {
+  @apply font-display font-bold uppercase leading-[0.95] tracking-tight;
+}
+
+@utility accent {
+  @apply font-serif font-normal italic normal-case text-brand;
+}
+
+@utility eyebrow {
+  @apply flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-brand;
+  &::before {
+    content: "";
+    @apply h-[2px] w-7 bg-brand;
+  }
 }
