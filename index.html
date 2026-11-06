@@ -340,6 +340,79 @@ button{font:inherit}
 .member p{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:17px;margin-top:6px}
 .member .tag{position:absolute;top:16px;right:16px;z-index:2;font-family:var(--display);font-size:13px;color:var(--ink);background:var(--gold);padding:3px 8px;letter-spacing:.06em}
 
+
+/* academia preview */
+.acad{background:radial-gradient(circle at 85% 0%,rgba(212,162,78,.16),transparent 50%),var(--ink)}
+.acad-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(30px,5vw,80px);align-items:center}
+.feat{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:32px 0 36px}
+.feat li{display:flex;align-items:center;gap:10px;font-size:14.5px;color:#DAD7CF;padding:12px 14px;border:1px solid #2B2A26;background:var(--ink2);border-radius:8px;transition:border-color .3s,transform .3s var(--ease-out)}
+.feat li:hover{border-color:var(--gold);transform:translateY(-2px)}
+.feat svg{width:18px;height:18px;flex:none;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mock-wrap{perspective:1600px}
+.mock{border-radius:12px;overflow:hidden;border:1px solid #2E2C27;background:#0B0B0B;box-shadow:0 50px 100px -40px rgba(212,162,78,.35),0 30px 60px -30px rgba(0,0,0,.8);transform:rotateY(-9deg) rotateX(4deg);transition:transform 1s var(--ease-out)}
+.mock-wrap:hover .mock{transform:none}
+.mbar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#161616;border-bottom:1px solid #262521}
+.mbar i{width:10px;height:10px;border-radius:50%;background:#3A3833}
+.mbar i:first-child{background:#D4A24E}
+.murl{margin-left:12px;flex:1;max-width:280px;font-size:11px;color:#8F8C85;background:#0E0E0E;border:1px solid #262521;border-radius:6px;padding:5px 10px;display:flex;align-items:center;gap:6px}
+.murl svg{width:10px;height:10px;stroke:#8F8C85;fill:none;stroke-width:2.2}
+.mbody{display:grid;grid-template-columns:150px 1fr;min-height:330px}
+.mside{background:#121212;border-right:1px solid #222;padding:14px 10px;display:flex;flex-direction:column;gap:3px}
+.mlogo{display:flex;align-items:baseline;gap:5px;margin:0 6px 14px}
+.mlogo .lw{font-weight:800;font-size:13px;display:flex;align-items:flex-end;line-height:1}
+.mlogo .lw svg{width:13px;height:11px;margin:0 1px}
+.mlogo em{font-family:var(--serif);font-size:11px}
+.mnav{display:flex;align-items:center;gap:8px;font-size:11px;color:#B9B6AE;padding:7px 8px;border-radius:6px;border:1px solid transparent}
+.mnav svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mnav.on{background:rgba(212,162,78,.1);border-color:rgba(212,162,78,.35);color:var(--gold)}
+.mmain{padding:20px 20px 22px;background:#0D0D0D}
+.meb{font-size:8.5px;letter-spacing:.3em;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+.meb::before{content:'';width:18px;height:1.5px;background:var(--gold)}
+.mh{font-family:var(--display);font-weight:700;font-size:30px;line-height:1;text-transform:uppercase;margin:8px 0 3px}
+.msub{font-size:10.5px;color:#8F8C85;margin-bottom:14px}
+.mcards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mcard{border:1px solid #262521;border-radius:7px;overflow:hidden;background:#141414;opacity:0;transform:translateY(16px);transition:opacity .7s,transform .8s var(--ease-out)}
+.acad .rv.in .mcard,.mock-wrap.in .mcard{opacity:1;transform:none}
+.mock-wrap.in .mcard:nth-child(2){transition-delay:.15s}.mock-wrap.in .mcard:nth-child(3){transition-delay:.3s}
+.mcover{aspect-ratio:16/9;position:relative;overflow:hidden;background:radial-gradient(circle at 15% 0%,rgba(212,162,78,.3),transparent 55%),linear-gradient(135deg,#161616,#050505)}
+.mcover img{width:100%;height:100%;object-fit:cover;display:block}
+.mcover .sl{position:absolute;right:-22%;bottom:-50%;width:36%;height:200%;transform:skewX(-32deg);background:linear-gradient(180deg,#E8C27A,#D4A24E,#8A6420)}
+.mcover b{position:absolute;left:9px;bottom:8px;font-family:var(--display);font-size:13px;line-height:1;text-transform:uppercase;max-width:62%}
+.mcover small{position:absolute;left:9px;bottom:24px;font-size:6.5px;letter-spacing:.25em;color:var(--gold);font-weight:600;text-transform:uppercase}
+.mci{padding:8px 9px 10px}
+.mci h4{font-family:var(--display);font-weight:600;font-size:11.5px;text-transform:uppercase;line-height:1.1}
+.mprog{display:flex;align-items:center;gap:6px;margin-top:8px}
+.mprog span{flex:1;height:3px;background:#262521;border-radius:2px;overflow:hidden}
+.mprog span i{display:block;height:100%;background:var(--gold);width:0;transition:width 1.6s .6s var(--ease-out)}
+.mock-wrap.in .mprog span i{width:var(--w)}
+.mprog em{font-style:normal;font-size:8.5px;color:#8F8C85}
+.mtoast{position:absolute;right:-14px;bottom:28px;background:#161616;border:1px solid rgba(212,162,78,.5);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;font-size:12px;color:#DAD7CF;box-shadow:0 20px 40px -20px rgba(0,0,0,.9);opacity:0;transform:translateY(14px);transition:opacity .6s 1.2s,transform .7s 1.2s var(--ease-out);animation:float 6s 2s ease-in-out infinite}
+.mock-wrap.in .mtoast{opacity:1;transform:none}
+.mtoast b{display:block;color:var(--fg);font-size:12.5px}
+.mtoast .dot{width:30px;height:30px;border-radius:50%;background:var(--gold);display:grid;place-items:center;flex:none}
+.mtoast .dot svg{width:15px;height:15px;stroke:var(--ink);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.mock-wrap{position:relative}
+.acad .h2{font-size:clamp(44px,4.6vw,72px)}
+.acad .btn{white-space:nowrap}
+.acad .tag-prev{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8F8C85}
+@media (max-width:980px){.acad-grid{grid-template-columns:1fr}.mock{transform:none}}
+@media (max-width:760px){
+  .feat{grid-template-columns:1fr 1fr;gap:8px}
+  .feat li{font-size:13px;padding:10px 11px}
+  .mbody{grid-template-columns:1fr}
+  .mside{flex-direction:row;overflow:hidden;padding:8px;gap:4px;border-right:0;border-bottom:1px solid #222}
+  .mlogo{display:none}
+  .mnav{flex:none;padding:6px 8px;font-size:10.5px}
+  .mnav:nth-child(n+6){display:none}
+  .mmain{padding:16px 14px}
+  .mh{font-size:24px}
+  .mcards{grid-template-columns:1fr 1fr}
+  .mcard:nth-child(3){display:none}
+  .mtoast{right:8px;bottom:-18px;font-size:11px}
+  .acad .btn{padding:0 16px;font-size:14px}
+  .acad .tag-prev{margin-top:40px}
+}
+
 /* mobile sticky cta */
 .mcta{position:fixed;left:12px;right:12px;bottom:12px;z-index:55;display:none;align-items:center;justify-content:space-between;gap:10px;background:rgba(14,14,14,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #2B2A26;border-radius:12px;padding:10px 10px 10px 16px;transform:translateY(140%);transition:transform .5s var(--ease-out)}
 .mcta.show{transform:none}
@@ -752,6 +825,51 @@ button{font:inherit}
       </div>
     </div>
   </section>
+
+  <section class='sec acad dark' id='academia'>
+    <div class='wrap acad-grid'>
+      <div>
+        <p class='eyebrow rv'>Academia Scale Studio</p>
+        <h2 class='h2 rv clip'>No solo lo hacemos.<em>También te enseñamos.</em></h2>
+        <p class='lead rv' style='color:#C9C6BE'>Nuestros clientes y alumnos tienen acceso a una plataforma propia con clases, comunidad y seguimiento. Para que entiendas lo que hacemos por tu marca y puedas aplicarlo tú también.</p>
+        <ul class='feat'>
+          <li class='rv' style='--d:0'><svg viewBox='0 0 24 24'><path d='M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z'/><path d='M4 19V5'/></svg>Cursos en video</li>
+          <li class='rv' style='--d:1'><svg viewBox='0 0 24 24'><path d='M4 20V10M10 20V4M16 20v-7M22 20H2'/></svg>Tu progreso</li>
+          <li class='rv' style='--d:2'><svg viewBox='0 0 24 24'><circle cx='9' cy='8' r='3.5'/><path d='M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5'/><path d='M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.8c1.6.8 2.7 2.6 3 5.2'/></svg>Comunidad</li>
+          <li class='rv' style='--d:3'><svg viewBox='0 0 24 24'><path d='M4 5h16v11H9l-5 4z'/></svg>Chat grupal</li>
+          <li class='rv' style='--d:4'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M3 10h18M8 3v4M16 3v4'/></svg>Eventos en vivo</li>
+          <li class='rv' style='--d:5'><svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/></svg>Reuniones 1 a 1</li>
+        </ul>
+        <div class='btn-row rv' style='margin-top:0'>
+          <a href='#agenda' class='btn shine' id='acadCta'>Quiero saber más <span class='ar'>→</span></a>
+          <a href='https://academia.scalestudio.cl' class='btn ghost' target='_blank' rel='noopener'>Acceso alumnos</a>
+        </div>
+      </div>
+      <div class='mock-wrap rv scale' id='mockWrap'>
+        <div class='mock' aria-label='Vista previa de la plataforma de la academia'>
+          <div class='mbar'><i></i><i></i><i></i><span class='murl'><svg viewBox='0 0 24 24'><rect x='5' y='11' width='14' height='10' rx='2'/><path d='M8 11V8a4 4 0 0 1 8 0v3'/></svg>academia.scalestudio.cl</span></div>
+          <div class='mbody'>
+            <div class='mside'>
+              <span class='mlogo'><span class='lw'>SC<svg viewBox='0 0 280 252'><path d='M140 0 L280 252 H199 L140 140 L80 252 H0 Z' fill='#D4A24E'/></svg>LE</span><em>Studio</em></span>
+              <span class='mnav on'><svg viewBox='0 0 24 24'><path d='M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z'/><path d='M4 19V5'/></svg>Cursos</span><span class='mnav'><svg viewBox='0 0 24 24'><path d='M3 10v4l13 5V5z'/><path d='M16 9a3 3 0 0 1 0 6M6 15l1.5 5h3L9 16'/></svg>Comunidad</span><span class='mnav'><svg viewBox='0 0 24 24'><path d='M4 5h16v11H9l-5 4z'/></svg>Chat grupal</span><span class='mnav'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='14' rx='2'/><path d='m3 7 9 6 9-6'/></svg>Mensajes</span><span class='mnav'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M3 10h18M8 3v4M16 3v4'/></svg>Eventos</span><span class='mnav'><svg viewBox='0 0 24 24'><circle cx='9' cy='8' r='3.5'/><path d='M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5'/><path d='M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.8c1.6.8 2.7 2.6 3 5.2'/></svg>Miembros</span><span class='mnav'><svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/></svg>Reuniones</span><span class='mnav'><svg viewBox='0 0 24 24'><circle cx='12' cy='8' r='4'/><path d='M4 21c1-4 4-6 8-6s7 2 8 6'/></svg>Mi perfil</span>
+            </div>
+            <div class='mmain'>
+              <p class='meb'>Tus cursos</p>
+              <p class='mh'>Hola, Camila</p>
+              <p class='msub'>Estos son tus cursos. Sigue donde quedaste.</p>
+              <div class='mcards'>
+                <div class='mcard'><div class='mcover'><img src='media/academia-bienvenidos.webp' alt='' loading='lazy'></div><div class='mci'><h4>Bienvenid@s</h4><div class='mprog'><span><i style='--w:100%'></i></span><em>100%</em></div></div></div>
+                <div class='mcard'><div class='mcover'><span class='sl'></span><small>Curso</small><b>Marca personal</b></div><div class='mci'><h4>Marca personal</h4><div class='mprog'><span><i style='--w:45%'></i></span><em>45%</em></div></div></div>
+                <div class='mcard'><div class='mcover'><span class='sl'></span><small>Curso</small><b>Anuncios con IA</b></div><div class='mci'><h4>Anuncios con IA</h4><div class='mprog'><span><i style='--w:10%'></i></span><em>10%</em></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='mtoast'><span class='dot'><svg viewBox='0 0 24 24'><path d='M5 12.5l4.5 4.5L19 7.5'/></svg></span><span><b>¡Clase completada!</b>Sigue con la siguiente 🚀</span></div>
+        <span class='tag-prev'>Vista previa de la plataforma</span>
+      </div>
+    </div>
+  </section>
 </div>
 </main>
 
@@ -932,6 +1050,9 @@ function setupSwipes(){
   v.addEventListener('ended', () => fr.classList.remove('playing'));
   window.addEventListener('hashchange', () => { if(!v.paused) v.pause(); });
 })();
+
+/* Academia CTA: vuelve al formulario */
+(function(){ const b = document.getElementById('acadCta'); if(!b) return; b.addEventListener('click', e => { e.preventDefault(); document.getElementById('formCard').scrollIntoView({behavior:'smooth', block:'start'}); }); })();
 route();
 </script>
 </body>
