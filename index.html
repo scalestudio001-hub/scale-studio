@@ -251,6 +251,10 @@ button{font:inherit}
 
 /* agenda */
 .agenda-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,64px);align-items:start}
+.agenda-grid>*{min-width:0}
+.form,.form form{min-width:0;max-width:100%}
+.field{min-width:0}
+.field>label,.field>.lbl{overflow-wrap:anywhere}
 .steps{display:flex;flex-direction:column;gap:14px;margin-top:40px}
 .step{background:var(--ink);color:var(--fg);padding:26px;position:relative;overflow:hidden}
 .step::after{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:transform .8s .2s var(--ease-out)}
@@ -482,6 +486,9 @@ button{font:inherit}
   .phase .pb{padding:22px 20px}
   .versus>div{padding:30px 22px}
   .row2{grid-template-columns:1fr}
+  .field>label,.field>.lbl{letter-spacing:.16em}
+  .chip{padding:9px 12px;font-size:13.5px}
+  .chip.day{min-width:68px}
   .svc{padding:30px 22px}
   .phead{padding:120px 20px 64px}
   .phead .h2{max-width:none;font-size:clamp(48px,14vw,72px)}
