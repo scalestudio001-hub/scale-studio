@@ -779,17 +779,30 @@ button{font:inherit}
           <div class='fsteps' aria-hidden='true'><i id='fs1'></i><i id='fs2'></i><i id='fs3'></i><i id='fs4'></i></div>
           <div class='row2'>
             <div class='field'><label for='f-nombre'>Nombre</label><input id='f-nombre' name='nombre' autocomplete='name' placeholder='Tu nombre' required></div>
-            <div class='field'><label for='f-negocio'>Negocio o rubro</label><input id='f-negocio' name='negocio' placeholder='Ej: pastelería, estética, ropa' required></div>
+            <div class='field'><label for='f-negocio'>Tu tienda o marca</label><input id='f-negocio' name='negocio' placeholder='Nombre de tu tienda, mentoría o curso' required></div>
           </div>
-          <div class='field'><span class='lbl' id='l-tipo'>Tu negocio es</span>
+          <div class='field'><span class='lbl' id='l-tipo'>¿A qué te dedicas en ecommerce?</span>
             <div class='chips' role='group' aria-labelledby='l-tipo' data-single='tipo'>
-              <button type='button' class='chip' aria-pressed='false'>Pequeña pyme</button>
-              <button type='button' class='chip' aria-pressed='false'>Pyme</button>
-              <button type='button' class='chip' aria-pressed='false'>Marca personal</button>
+              <button type='button' class='chip' aria-pressed='false'>Tienda propia</button>
+              <button type='button' class='chip' aria-pressed='false'>Dropshipping</button>
+              <button type='button' class='chip' aria-pressed='false'>Mentoría o cursos</button>
+              <button type='button' class='chip' aria-pressed='false'>Otro</button>
             </div><p class='err' id='e-tipo'>Elige una opción.</p></div>
-          <div class='field'><span class='lbl' id='l-serv'>Te interesa (puedes elegir varios)</span>
+          <div class='field'><span class='lbl' id='l-ventas'>¿Cuánto vende hoy tu negocio al mes?</span>
+            <div class='chips' role='group' aria-labelledby='l-ventas' data-single='ventas'>
+              <button type='button' class='chip' aria-pressed='false' data-value='Menos de $1.000.000' data-lvl='0'>Menos de $1.000.000</button>
+              <button type='button' class='chip' aria-pressed='false' data-value='$1 a $5 millones' data-lvl='1'>$1 – 5 millones</button>
+              <button type='button' class='chip' aria-pressed='false' data-value='Más de $5 millones' data-lvl='2'>Más de $5 millones</button>
+            </div><p class='err' id='e-ventas'>Elige una opción.</p></div>
+          <div class='field'><span class='lbl' id='l-inv'>¿Cuánto estás dispuesto a invertir en tu marca al mes?</span>
+            <div class='chips' role='group' aria-labelledby='l-inv' data-single='inv'>
+              <button type='button' class='chip' aria-pressed='false' data-value='Menos de $300.000' data-lvl='0'>Menos de $300.000</button>
+              <button type='button' class='chip' aria-pressed='false' data-value='$300.000 a $600.000' data-lvl='1'>$300.000 – $600.000</button>
+              <button type='button' class='chip' aria-pressed='false' data-value='Más de $600.000' data-lvl='2'>Más de $600.000</button>
+            </div><p class='err' id='e-inv'>Elige una opción.</p></div>
+          <div class='field'><label for='f-freno'>Con tus palabras, ¿qué te frena hoy para mostrarte?</label><textarea id='f-freno' name='freno' placeholder='Ej: me da vergüenza hablar a cámara, publico y no pasa nada, no sé qué subir…'></textarea><p class='err' id='e-freno'>Cuéntanos en una frase qué te frena.</p></div>
+          <div class='field'><span class='lbl' id='l-serv'>Además te interesa (opcional)</span>
             <div class='chips' role='group' aria-labelledby='l-serv' data-multi='servicios'>
-              <button type='button' class='chip' aria-pressed='false'>Marca personal</button>
               <button type='button' class='chip' aria-pressed='false'>Redes y marketing</button>
               <button type='button' class='chip' aria-pressed='false'>Rebranding</button>
               <button type='button' class='chip' aria-pressed='false'>Landing o web</button>
@@ -813,8 +826,8 @@ button{font:inherit}
             <div class='field'><label for='f-wsp'>WhatsApp</label><input id='f-wsp' name='wsp' type='tel' autocomplete='tel' placeholder='+56 9 1234 5678' required></div>
             <div class='field'><label for='f-ig'>Instagram o web (opcional)</label><input id='f-ig' name='ig' placeholder='@tunegocio'></div>
           </div>
-          <div class='field'><label for='f-com'>Comentarios (opcional)</label><textarea id='f-com' name='com' placeholder='¿Qué te gustaría resolver?'></textarea></div>
-          <p class='err' id='e-gen'>Completa tu nombre, negocio y WhatsApp.</p>
+          <div class='field'><label for='f-com'>Algo más que quieras contarnos (opcional)</label><textarea id='f-com' name='com' placeholder='Opcional'></textarea></div>
+          <p class='err' id='e-gen'>Completa tu nombre, tu tienda o marca y tu WhatsApp.</p>
           <button type='submit' class='btn shine'>Confirmar por WhatsApp <span class='ar'>→</span></button>
         </form>
         <div class='done-box' id='doneBox' aria-live='polite'>
@@ -902,6 +915,12 @@ button{font:inherit}
 <script>
 /* Config: número de WhatsApp de Scale Studio (formato 569XXXXXXXX) */
 const WHATSAPP = '56900000000';
+/* Píxel de Meta: pega aquí el ID del píxel de Scale Studio (solo números). Vacío = desactivado */
+const META_PIXEL_ID = '';
+if(META_PIXEL_ID){
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', META_PIXEL_ID); fbq('track', 'PageView');
+}
 const NL = String.fromCharCode(10);
 const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1005,9 +1024,9 @@ function setupSwipes(){
   const progress = () => {
     const f = new FormData(form);
     document.getElementById('fs1').classList.toggle('ok', !!(f.get('nombre').trim() && f.get('negocio').trim()));
-    document.getElementById('fs2').classList.toggle('ok', !!val('tipo'));
+    document.getElementById('fs2').classList.toggle('ok', !!(val('tipo') && val('ventas') && val('inv')));
     document.getElementById('fs3').classList.toggle('ok', !!(val('dia') && val('hora')));
-    document.getElementById('fs4').classList.toggle('ok', !!f.get('wsp').trim());
+    document.getElementById('fs4').classList.toggle('ok', !!(f.get('wsp').trim() && f.get('freno').trim()));
   };
   document.querySelectorAll('[data-single],[data-multi]').forEach(g => {
     g.addEventListener('click', e => {
@@ -1015,29 +1034,32 @@ function setupSwipes(){
       if(g.dataset.single){ g.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c ? 'true' : 'false')); }
       else c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
       progress();
+      const er = g.closest('.field') && g.closest('.field').querySelector('.err'); if(er) er.classList.remove('show');
     });
   });
-  form.addEventListener('input', progress);
+  form.addEventListener('input', e => { progress(); const er = e.target.closest('.field') && e.target.closest('.field').querySelector('.err'); if(er) er.classList.remove('show'); });
   let msg = '';
   form.addEventListener('submit', e => {
     e.preventDefault();
     const f = Object.fromEntries(new FormData(form));
-    const tipo = val('tipo'), dia = val('dia'), hora = val('hora');
+    const tipo = val('tipo'), ventas = val('ventas'), inv = val('inv'), dia = val('dia'), hora = val('hora');
     const serv = [...document.querySelectorAll('[data-multi=servicios] [aria-pressed=true]')].map(x => x.textContent.trim());
-    const errs = {tipo:!tipo, dia:!dia, hora:!hora, gen:!(f.nombre.trim() && f.negocio.trim() && f.wsp.trim())};
+    const errs = {tipo:!tipo, ventas:!ventas, inv:!inv, freno:!f.freno.trim(), dia:!dia, hora:!hora, gen:!(f.nombre.trim() && f.negocio.trim() && f.wsp.trim())};
     Object.entries(errs).forEach(([k,v]) => { const el = document.getElementById('e-'+k); el.classList.remove('show'); void el.offsetWidth; el.classList.toggle('show', v); });
-    if(Object.values(errs).some(Boolean)) return;
-    const lines = ['Hola Scale Studio 👋 Quiero agendar un diagnóstico.', '', 'Nombre: ' + f.nombre.trim(), 'Negocio: ' + f.negocio.trim() + ' (' + tipo + ')'];
-    if(serv.length) lines.push('Me interesa: ' + serv.join(', '));
+    if(Object.values(errs).some(Boolean)){ const first = Object.keys(errs).find(k => errs[k]); document.getElementById('e-'+first).closest('.field, form').scrollIntoView({behavior:'smooth', block:'center'}); return; }
+    const lines = ['Hola Scale Studio 👋 Quiero agendar un diagnóstico.', '', 'Nombre: ' + f.nombre.trim(), 'Tienda o marca: ' + f.negocio.trim(), 'Me dedico a: ' + tipo, 'Ventas al mes: ' + ventas, 'Inversión mensual en mi marca: ' + inv, 'Lo que me frena: ' + f.freno.trim()];
+    if(serv.length) lines.push('Además me interesa: ' + serv.join(', '));
     lines.push('Día y hora: ' + dia + ', ' + hora, 'WhatsApp: ' + f.wsp.trim());
     if(f.ig.trim()) lines.push('Instagram/web: ' + f.ig.trim());
-    if(f.com.trim()) lines.push('Comentarios: ' + f.com.trim());
+    if(f.com.trim()) lines.push('Comentario: ' + f.com.trim());
     msg = lines.join(NL);
     document.getElementById('summary').textContent = msg;
     document.getElementById('wspBtn').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg);
     form.style.display = 'none'; done.classList.add('show');
+    if(window.fbq) fbq('track', 'Lead', {content_name: 'Diagnóstico', status: tipo});
     document.getElementById('formCard').scrollIntoView({behavior:'smooth', block:'start'});
   });
+  document.getElementById('wspBtn').addEventListener('click', () => { if(window.fbq) fbq('track', 'Contact'); });
   document.getElementById('editBtn').addEventListener('click', () => { done.classList.remove('show'); form.style.display = ''; document.getElementById('copied').textContent = ''; });
   document.getElementById('copyBtn').addEventListener('click', async () => {
     const out = document.getElementById('copied');
