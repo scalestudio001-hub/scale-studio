@@ -4,8 +4,8 @@
 <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='theme-color' content='#0E0E0E'>
-<title>Scale Studio — Marca, contenido y anuncios</title>
-<meta name='description' content='Scale Studio: marca personal, redes sociales, rebranding, landings, logos, dominios y anuncios con IA en Meta Ads para pymes y pequeñas pymes.'>
+<title>Scale Studio | Marketing y automatización IA</title>
+<meta name='description' content='Ayudamos a pymes a vender más y trabajar menos: marca personal, contenido y anuncios, y asistentes con IA que responden tu Instagram 24/7. Diagnóstico gratis.'>
 <link rel='preconnect' href='https://fonts.googleapis.com'>
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Oswald:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap' rel='stylesheet'>
@@ -519,6 +519,58 @@ button{font:inherit}
   .rv{opacity:1;transform:none}
 }
 .page[hidden]{display:none}
+
+/* v2: nichos + IA */
+.hero-title.v2{font-size:clamp(72px,min(9.6vw,15.5vh),168px)}
+.hero-title .gold{color:var(--gold)}
+.hero-title .ln:nth-child(3)>span{animation-delay:.65s}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:64px}
+.grid4 .card h3{font-size:23px}
+@media (max-width:980px){.grid4{grid-template-columns:1fr 1fr}}
+.demo-grid,.case-grid{display:grid;grid-template-columns:6fr 5fr;gap:clamp(30px,5vw,80px);align-items:center}
+.phone-wrap{position:relative;justify-self:center;width:100%;max-width:370px}
+.phone{background:#0A0A0A;border:1px solid #2B2A26;border-radius:34px;padding:14px;box-shadow:0 40px 80px -40px rgba(212,162,78,.35),0 30px 60px -30px rgba(0,0,0,.9)}
+.ph-top{display:flex;align-items:center;gap:10px;padding:8px 8px 14px;border-bottom:1px solid #1F1E1B}
+.ph-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-l),var(--gold-d));color:var(--ink);font-weight:800;font-size:12px;display:grid;place-items:center}
+.ph-name{display:flex;flex-direction:column;font-size:14px;color:var(--fg)}
+.ph-name small{font-size:11px;color:#6FCF8E}
+.ph-time{margin-left:auto;font-size:11px;color:#8F8C85}
+.chat{height:400px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:14px 4px}
+.msg{max-width:82%;font-size:13.5px;line-height:1.45;padding:9px 13px;border-radius:18px;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s var(--ease-out);display:none}
+.msg.show{display:block}
+.msg.vis{opacity:1;transform:none}
+.msg.u{align-self:flex-end;background:linear-gradient(135deg,#7B4DFF,#C1359B);color:#fff;border-bottom-right-radius:6px}
+.msg.a{align-self:flex-start;background:#1E1D1A;color:#ECEAE4;border:1px solid #2B2A26;border-bottom-left-radius:6px}
+.msg.typing{display:flex;gap:4px;padding:13px 14px}
+.msg.typing i{width:6px;height:6px;border-radius:50%;background:#8F8C85;animation:blink 1s infinite}
+.msg.typing i:nth-child(2){animation-delay:.15s}.msg.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.ph-input{border:1px solid #2B2A26;border-radius:22px;padding:11px 16px;font-size:13px;color:#6B6862}
+.chat-toast{right:-18px;bottom:110px;opacity:0;transform:translateY(14px)}
+.chat-toast.show{opacity:1;transform:none;transition:opacity .5s,transform .5s var(--ease-out)}
+.case-card{background:var(--ink2);border:1px solid #2B2A26;border-top:4px solid var(--gold);padding:34px 30px}
+.case-card small{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.case-card ol{list-style:none;margin-top:18px;counter-reset:c}
+.case-card li{counter-increment:c;display:grid;grid-template-columns:44px 1fr;row-gap:4px;padding:16px 0;border-bottom:1px solid #2B2A26;color:#B9B6AE;font-size:14.5px;line-height:1.55}
+.case-card li::before{content:'0' counter(c);grid-row:span 2;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:24px}
+.case-card li b{color:var(--fg);font-family:var(--display);font-weight:500;text-transform:uppercase;font-size:18px;letter-spacing:.02em}
+.demo-grid>*,.case-grid>*{min-width:0}
+.case .h2{overflow-wrap:anywhere}
+.svc-grid.three{grid-template-columns:repeat(3,1fr)}
+.extras{margin-top:72px}
+.ex-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ex{border:1px solid var(--line);background:var(--paper);padding:22px 20px;transition:border-color .3s,transform .3s var(--ease-out)}
+.ex:hover{border-color:var(--gold);transform:translateY(-3px)}
+.ex h4{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:19px;margin-bottom:6px}
+.ex p{font-size:14px;line-height:1.5;color:#5C5952}
+@media (max-width:980px){.demo-grid,.case-grid{grid-template-columns:1fr}.svc-grid.three{grid-template-columns:1fr}.ex-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){
+  .hero-title.v2{font-size:clamp(54px,16.5vw,96px)}
+  .grid4{display:flex;margin-top:44px}
+  .chat{height:380px}
+  .case .h2{font-size:clamp(30px,9vw,60px)}
+  .chat-toast{right:6px;bottom:96px}
+}
 </style>
 </head>
 <body>
@@ -532,7 +584,7 @@ button{font:inherit}
   <ul class='nav-links'>
     <li class='hide-xs'><a href='#inicio' data-page='inicio'>Inicio</a></li>
     <li><a href='#servicios' data-page='servicios'>Servicios</a></li>
-    <li><a href='#agenda' data-page='agenda' class='nav-cta'>Agendar</a></li>
+    <li><a href='#agenda' data-page='agenda' class='nav-cta'>Diagnóstico</a></li>
   </ul>
 </header>
 
@@ -547,76 +599,118 @@ button{font:inherit}
       <div class='grain'></div>
     </div>
     <div class='hero-in'>
-      <p class='eyebrow-hero'>Estudio de marca · Contenido · Meta Ads</p>
-      <h1 class='hero-title'>
-        <span class='ln'><span>Escala</span></span>
-        <span class='ln'><span>tu</span></span>
-        <span class='ln'><span class='rot' id='rot'><b>marca.</b></span></span>
+      <p class='eyebrow-hero'>Marketing y automatización con IA para pymes</p>
+      <h1 class='hero-title v2'>
+        <span class='ln'><span>Vende más,</span></span>
+        <span class='ln'><span>trabaja</span></span>
+        <span class='ln'><span class='gold'>menos.</span></span>
       </h1>
-      <p class='tagline'>Marca, contenido y anuncios con IA para que tu negocio <strong>crezca en serio.</strong></p>
+      <p class='tagline'>Marca personal, contenido y automatizaciones con IA para que tu pyme <strong>venda más y tú trabajes menos.</strong></p>
       <div class='hero-ctas'>
-        <a href='#agenda' class='btn shine'>Agenda tu diagnóstico <span class='ar'>→</span></a>
+        <a href='#agenda' class='btn shine'>Diagnóstico gratis <span class='ar'>→</span></a>
         <a href='#servicios' class='btn ghost'>Ver servicios</a>
       </div>
     </div>
     <span class='count' aria-hidden='true'>01</span>
     <span class='cue' aria-hidden='true'></span>
     <div class='marquee' aria-hidden='true'><div class='track'>
-      <span>Marca personal</span><span>Redes sociales</span><span>Rebranding</span><span>Landings</span><span>Logos</span><span>Dominios</span><span>Meta Ads con IA</span><span>Pymes</span>
-      <span>Marca personal</span><span>Redes sociales</span><span>Rebranding</span><span>Landings</span><span>Logos</span><span>Dominios</span><span>Meta Ads con IA</span><span>Pymes</span>
+      <span>Marca personal</span><span>Automatizaciones con IA</span><span>Contenido</span><span>Anuncios</span><span>Clínicas</span><span>Cabañas</span><span>Ecommerce</span><span>Pymes</span>
+      <span>Marca personal</span><span>Automatizaciones con IA</span><span>Contenido</span><span>Anuncios</span><span>Clínicas</span><span>Cabañas</span><span>Ecommerce</span><span>Pymes</span>
     </div></div>
-  </section>
-
-
-  <section class='trailer dark' id='trailer'>
-    <div class='wrap'>
-      <div class='head'>
-        <div>
-          <p class='eyebrow rv'>El trailer</p>
-          <h2 class='h2 rv clip'>Un minuto.<em>Así trabajamos.</em></h2>
-        </div>
-      </div>
-      <div class='vframe rv scale' id='vframe'>
-        <video id='trailerVid' src='media/trailer.mp4' poster='media/poster.jpg' playsinline preload='metadata'></video>
-        <button class='vplay' id='vplay' aria-label='Reproducir trailer'><span class='pb'><svg viewBox='0 0 24 24'><path d='M7 4.5v15l12.5-7.5z'/></svg></span><span>Ver trailer · 1:00</span></button>
-      </div>
-    </div>
   </section>
 
   <section class='sec light'>
     <span class='ghost-num' data-par='0.12' aria-hidden='true'>01</span>
     <div class='wrap'>
       <p class='eyebrow rv'>01 — Qué hacemos</p>
-      <h2 class='h2 rv clip'>Tu negocio ya funciona.<em>Ahora toca que se note.</em></h2>
-      <p class='lead rv'>En Scale Studio juntamos marca, contenido y anuncios en un solo sistema. Nada de piezas sueltas: cada logo, cada post y cada campaña empuja hacia lo mismo, <b>que más gente correcta te conozca y te compre</b>.</p>
+      <h2 class='h2 rv clip'>Tres líneas.<em>Un solo objetivo: que vendas más.</em></h2>
+      <p class='lead rv'>Juntamos marca, contenido y automatización en un solo sistema. Mientras tu contenido atrae a la gente correcta, un asistente con IA les responde al instante. <b>Tú te enfocas en atender y vender.</b></p>
       <div class='grid3 swipe' data-swipe>
-        <article class='card topline rv' style='--d:0'><div class='ico'><svg viewBox='0 0 24 24'><path d='M12 3l9 16H3z'/><path d='M12 10l3.5 6h-7z'/></svg></div><h3>Marca</h3><p>Identidad, logo y rebranding que se ven profesionales y se recuerdan. Que tu negocio parezca lo grande que es.</p></article>
-        <article class='card topline rv' style='--d:1'><div class='ico'><svg viewBox='0 0 24 24'><rect x='3' y='4' width='18' height='16' rx='3'/><path d='M10 9l5 3-5 3z'/></svg></div><h3>Contenido</h3><p>Redes con estrategia: pilares, guiones y calendario. Cada publicación tiene un objetivo, nada sale al azar.</p></article>
-        <article class='card topline rv' style='--d:2'><div class='ico'><svg viewBox='0 0 24 24'><path d='M3 17l6-6 4 4 8-8'/><path d='M15 7h6v6'/></svg></div><h3>Anuncios</h3><p>Campañas en Meta Ads con creatividades hechas con IA, medidas con números y ajustadas cada semana.</p></article>
+        <article class='card topline rv' style='--d:0'><div class='ico'><svg viewBox='0 0 24 24'><circle cx='12' cy='8' r='4'/><path d='M4 21c1-4.4 4.2-6.5 8-6.5s7 2.1 8 6.5'/></svg></div><h3>Marca personal</h3><p>Posicionamiento, historia y contenido a cámara para que te reconozcan como referente y te elijan por lo que sabes.</p></article>
+        <article class='card topline rv' style='--d:1'><div class='ico'><svg viewBox='0 0 24 24'><path d='M4 5h16v11H9l-5 4z'/><path d='M9 10h.01M12 10h.01M15 10h.01'/></svg></div><h3>Automatizaciones con IA</h3><p>Un asistente que responde mensajes y comentarios de Instagram 24/7, agenda y no deja a ningún cliente esperando.</p></article>
+        <article class='card topline rv' style='--d:2'><div class='ico'><svg viewBox='0 0 24 24'><path d='M3 17l6-6 4 4 8-8'/><path d='M15 7h6v6'/></svg></div><h3>Contenido y anuncios</h3><p>Reels, carruseles y campañas en Meta Ads con creatividades hechas con IA, medidas con números cada semana.</p></article>
       </div>
       <div class='swipe-dots' data-dots></div>
     </div>
   </section>
 
-  <section class='sec dark'>
+  <section class='sec dark demo' id='demo'>
     <span class='ghost-num' data-par='0.12' aria-hidden='true'>02</span>
+    <div class='wrap demo-grid'>
+      <div>
+        <p class='eyebrow rv'>02 — Demo IA</p>
+        <h2 class='h2 rv clip'>Responde a las 2 a.m.<em>Para que tú no tengas que hacerlo.</em></h2>
+        <p class='lead rv' style='color:#C9C6BE'>La mayoría de los clientes le compra a quien responde primero. Tu asistente con IA contesta al instante, con la información de tu negocio, y le pasa la conversación a tu equipo cuando hace falta una persona.</p>
+        <ul class='feat'>
+          <li class='rv' style='--d:0'><svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/></svg>Responde DMs y comentarios 24/7</li>
+          <li class='rv' style='--d:1'><svg viewBox='0 0 24 24'><path d='M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z'/><path d='M4 19V5'/></svg>Entrenado con tu negocio</li>
+          <li class='rv' style='--d:2'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M3 10h18M8 3v4M16 3v4'/></svg>Agenda horas y toma datos</li>
+          <li class='rv' style='--d:3'><svg viewBox='0 0 24 24'><circle cx='9' cy='8' r='3.5'/><path d='M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5'/><path d='M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.8c1.6.8 2.7 2.6 3 5.2'/></svg>Deriva a tu equipo</li>
+        </ul>
+        <div class='btn-row rv' style='margin-top:0'>
+          <a href='#agenda' class='btn shine'>Quiero mi asistente <span class='ar'>→</span></a>
+        </div>
+      </div>
+      <div class='phone-wrap rv scale'>
+        <div class='phone' aria-label='Conversación de ejemplo entre un paciente y el asistente con IA de una clínica dental'>
+          <div class='ph-top'><span class='ph-av'>CD</span><span class='ph-name'><b>Clínica Dental</b><small>Asistente IA · en línea</small></span><span class='ph-time'>02:14</span></div>
+          <div class='chat' id='chat'>
+            <p class='msg u' data-t='Hola! hacen limpiezas dentales? 🦷'></p>
+            <p class='msg a' data-t='¡Hola! 😊 Sí, hacemos limpiezas de lunes a sábado y la primera evaluación es sin costo. ¿Te acomoda mañana en la mañana o en la tarde?'></p>
+            <p class='msg u' data-t='en la tarde porfa'></p>
+            <p class='msg a' data-t='Tengo libre mañana a las 16:00 o a las 17:30. ¿Cuál te reservo?'></p>
+            <p class='msg u' data-t='16:00 👌'></p>
+            <p class='msg a' data-t='¡Listo! Quedaste agendada mañana a las 16:00 ✅ Te escribo una hora antes para recordarte.'></p>
+          </div>
+          <div class='ph-input'><span>Enviar mensaje…</span></div>
+        </div>
+        <div class='mtoast chat-toast' id='chatToast'><span class='dot'><svg viewBox='0 0 24 24'><path d='M5 12.5l4.5 4.5L19 7.5'/></svg></span><span><b>Hora agendada</b>Mientras dormías 🌙</span></div>
+        <span class='tag-prev'>Conversación de ejemplo</span>
+      </div>
+    </div>
+  </section>
+
+  <section class='sec light'>
+    <span class='ghost-num' data-par='0.12' aria-hidden='true'>03</span>
     <div class='wrap'>
-      <p class='eyebrow rv'>02 — Para quién</p>
-      <h2 class='h2 rv clip'>Hecho para quienes<em>quieren dar el siguiente paso.</em></h2>
-      <div class='grid3 swipe' data-swipe>
-        <article class='card rv' style='--d:0'><div class='num'>01</div><h3>Pequeñas pymes</h3><p>Estás partiendo o tienes poco presupuesto y necesitas verte bien desde el día uno: logo, redes ordenadas y tu primera campaña.</p></article>
-        <article class='card rv' style='--d:1'><div class='num'>02</div><h3>Pymes</h3><p>Ya vendes, pero tu marca quedó chica o desordenada. Rebranding, web y anuncios para crecer sin improvisar.</p></article>
-        <article class='card rv' style='--d:2'><div class='num'>03</div><h3>Marca personal</h3><p>Sabes de lo tuyo y quieres que te elijan por eso. Historia, posicionamiento y contenido a cámara que genera confianza.</p></article>
+      <p class='eyebrow rv'>03 — Para quién</p>
+      <h2 class='h2 rv clip'>Negocios que reciben<em>más mensajes de los que alcanzan a responder.</em></h2>
+      <div class='grid4 swipe' data-swipe>
+        <article class='card rv' style='--d:0'><div class='num'>01</div><h3>Clínicas y salud</h3><p>Pacientes que preguntan de noche y se van con quien responde primero. El asistente contesta, agenda y tu equipo solo confirma.</p></article>
+        <article class='card rv' style='--d:1'><div class='num'>02</div><h3>Turismo y cabañas</h3><p>Consultas por fechas, precios y disponibilidad a toda hora. Respuestas al instante y anuncios para llenar la temporada baja.</p></article>
+        <article class='card rv' style='--d:2'><div class='num'>03</div><h3>Ecommerce</h3><p>Contenido y anuncios que venden, y un asistente que resuelve dudas de envíos, tallas y pagos antes de que el cliente se enfríe.</p></article>
+        <article class='card rv' style='--d:3'><div class='num'>04</div><h3>Marca personal</h3><p>Sabes de lo tuyo y quieres que te elijan por eso. Posicionamiento, guiones y contenido a cámara que genera confianza.</p></article>
       </div>
       <div class='swipe-dots' data-dots></div>
     </div>
   </section>
 
+  <section class='sec dark case' id='caso'>
+    <div class='wrap case-grid'>
+      <div>
+        <p class='eyebrow rv'>04 — Caso real</p>
+        <h2 class='h2 rv clip'>@lukas_ecomm<em>Contenido que ya funciona, hecho suyo.</em></h2>
+        <p class='lead rv' style='color:#C9C6BE'>Lukas es mentor de dropshipping. Le creamos el contenido para sus anuncios con una estrategia simple: tomar formatos que ya demostraron ser virales y adaptarlos a su marca, su voz y su oferta.</p>
+        <div class='btn-row rv' style='margin-top:36px'>
+          <a href='https://www.instagram.com/lukas_ecomm/' class='btn ghost' target='_blank' rel='noopener'>Ver su Instagram <span class='ar'>→</span></a>
+        </div>
+      </div>
+      <div class='case-card rv scale'>
+        <small>Qué hicimos</small>
+        <ol>
+          <li><b>Análisis</b>Revisamos qué contenido está funcionando en su nicho: ganchos, formatos y temas.</li>
+          <li><b>Adaptación</b>Convertimos esos formatos en guiones con su voz y su oferta.</li>
+          <li><b>Anuncios</b>Creamos las piezas para sus campañas en Meta.</li>
+        </ol>
+        <!-- RESULTADOS: agregar aquí los resultados reales de Lukas cuando estén confirmados -->
+      </div>
+    </div>
+  </section>
 
-  <section class='sec dark' id='equipo'>
+  <section class='sec dark' id='equipo' style='padding-top:0'>
     <div class='wrap'>
       <p class='eyebrow rv'>El equipo</p>
-      <h2 class='h2 rv clip'>Personas reales<em>detrás de tu marca.</em></h2>
+      <h2 class='h2 rv clip'>Personas reales<em>detrás de tu negocio.</em></h2>
       <div class='team swipe' data-swipe>
         <article class='member card rv' style='--d:0'><div class='ph'><span class='tag'>01</span><img src='media/barbara.webp' alt='Bárbara' loading='lazy' width='540' height='720'><div class='cap'><h3>Bárbara</h3><p>Dirección y estrategia</p></div></div></article>
         <article class='member card rv' style='--d:1'><div class='ph'><span class='tag'>02</span><img src='media/sebastian.webp' alt='Sebastián' loading='lazy' width='540' height='720'><div class='cap'><h3>Sebastián</h3><p>Meta Ads y tecnología</p></div></div></article>
@@ -633,47 +727,23 @@ button{font:inherit}
 
   <section class='sec light' style='overflow:visible'>
     <div class='wrap'>
-      <p class='eyebrow rv'>03 — Cómo trabajamos</p>
-      <h2 class='h2 rv clip'>Tres fases.<em>De negocio invisible a marca elegida.</em></h2>
+      <p class='eyebrow rv'>05 — Cómo trabajamos</p>
+      <h2 class='h2 rv clip'>Tres fases.<em>De responder a mano a vender en automático.</em></h2>
       <div class='phases'>
-        <div class='phase rv' style='--i:0'><div class='pn'>01</div><div class='pb'><small>El punto de partida</small><h3>Diagnóstico</h3><p>Revisamos tu marca, tus redes y tus números. Sales con un plan claro de qué hacer primero y por qué.</p><div class='bar'><i></i></div></div></div>
-        <div class='phase rv' style='--i:1'><div class='pn'>02</div><div class='pb'><small>La construcción</small><h3>Marca, web y contenido</h3><p>Identidad, landing, dominio y contenido, en el orden que más impacto tiene para tu negocio.</p><div class='bar'><i></i></div></div></div>
+        <div class='phase rv' style='--i:0'><div class='pn'>01</div><div class='pb'><small>El punto de partida</small><h3>Diagnóstico gratis</h3><p>Revisamos tu Instagram, tus mensajes y tus números. Sales con un plan claro de qué hacer primero y por qué.</p><div class='bar'><i></i></div></div></div>
+        <div class='phase rv' style='--i:1'><div class='pn'>02</div><div class='pb'><small>La construcción</small><h3>Marca, contenido y asistente IA</h3><p>Ordenamos tu perfil, armamos el contenido y configuramos tu asistente con la información de tu negocio.</p><div class='bar'><i></i></div></div></div>
         <div class='phase rv' style='--i:2'><div class='pn'>03</div><div class='pb'><small>El resultado</small><h3>Anuncios y crecimiento</h3><p>Campañas en Meta con IA, medición semanal y escala de lo que funciona. Cada decisión respaldada por números.</p><div class='bar'><i></i></div></div></div>
       </div>
-    </div>
-  </section>
-
-  <section class='sec light' style='padding-top:0'>
-    <div class='wrap'>
-      <p class='eyebrow rv'>04 — La diferencia</p>
-      <h2 class='h2 rv clip'>Sistema vs.<em>marketing a pulso.</em></h2>
-      <div class='versus'>
-        <div class='vs-a rv left'><h3>Modo improvisado</h3><ul>
-          <li>Logo hecho a la rápida que no dice nada</li>
-          <li>Publica sin plan y espera que algo explote</li>
-          <li>Boostea posts sin saber a quién le habla</li>
-          <li>Web lenta, desordenada o simplemente no tiene</li>
-          <li>No sabe cuánto le cuesta conseguir un cliente</li>
-        </ul></div>
-        <div class='vs-b rv right' style='--d:2'><h3>Sistema Scale Studio</h3><ul>
-          <li>Identidad pensada para tu cliente ideal</li>
-          <li>Contenido con pilares, guiones y calendario</li>
-          <li>Campañas en Meta con creatividades IA y públicos claros</li>
-          <li>Landing rápida, con dominio y correo propio</li>
-          <li>Costo por cliente medido cada semana</li>
-        </ul></div>
-      </div>
-      <p class='punch rv clip'>No es suerte.<span>Es sistema.</span></p>
     </div>
   </section>
 
   <section class='sec dark final'>
     <div class='wrap'>
       <p class='eyebrow rv'>Ahora depende de ti</p>
-      <p class='intro rv'>Ya tienes lo más difícil: un negocio que funciona. Lo que falta es que se vea, se entienda y llegue a la gente correcta.</p>
-      <p class='q rv clip'>¿Vas a seguir siendo el secreto mejor guardado de tu rubro… <span>o la marca que todos reconocen?</span></p>
+      <p class='intro rv'>Cada mensaje que respondes tarde es un cliente que se va con otro. Lo que falta es un sistema que atraiga, responda y venda por ti.</p>
+      <p class='q rv clip'>¿Vas a seguir respondiendo todo a mano… <span>o dejas que tu negocio trabaje por ti?</span></p>
       <div class='btn-row rv'>
-        <a href='#agenda' class='btn shine'>Agenda tu diagnóstico <span class='ar'>→</span></a>
+        <a href='#agenda' class='btn shine'>Diagnóstico gratis <span class='ar'>→</span></a>
         <a href='#servicios' class='btn ghost'>Ver servicios</a>
       </div>
     </div>
@@ -686,36 +756,37 @@ button{font:inherit}
     <div class='hero-bg' aria-hidden='true'><div class='glow'></div><span class='slash s1'></span><span class='slash s2'></span></div>
     <div class='wrap'>
       <p class='eyebrow' style='color:var(--gold)'>02 — Servicios</p>
-      <h1 class='h2'><span class='ln'><span>Todo lo que tu</span></span><span class='ln'><span>marca necesita.</span></span><em>En un solo equipo.</em></h1>
-      <p class='lead'>Puedes tomar un servicio puntual o el sistema completo. Partimos siempre por un diagnóstico para no gastar en lo que no mueve la aguja.</p>
+      <h1 class='h2'><span class='ln'><span>Tres líneas</span></span><span class='ln'><span>para vender más.</span></span><em>En un solo equipo.</em></h1>
+      <p class='lead'>Puedes tomar una línea o el sistema completo. Partimos siempre por un diagnóstico gratis para no gastar en lo que no mueve la aguja.</p>
     </div>
   </section>
   <div class='marquee' aria-hidden='true'><div class='track'>
-    <span>Marca personal</span><span>Redes sociales</span><span>Rebranding</span><span>Landings</span><span>Logos</span><span>Dominios</span><span>Meta Ads con IA</span>
-    <span>Marca personal</span><span>Redes sociales</span><span>Rebranding</span><span>Landings</span><span>Logos</span><span>Dominios</span><span>Meta Ads con IA</span>
+    <span>Marca personal</span><span>Automatizaciones con IA</span><span>Contenido</span><span>Anuncios</span><span>Logos</span><span>Landings</span><span>Dominios</span>
+    <span>Marca personal</span><span>Automatizaciones con IA</span><span>Contenido</span><span>Anuncios</span><span>Logos</span><span>Landings</span><span>Dominios</span>
   </div></div>
 
   <section class='sec light'>
     <div class='wrap'>
-      <div class='svc-grid'>
-        <article class='svc rv'><div class='svc-head'><span class='badge'>A</span><h3>Programa de marca personal</h3></div>
+      <div class='svc-grid three'>
+        <article class='svc rv'><div class='svc-head'><span class='badge'>A</span><h3>Marca personal</h3></div>
           <p>Para que te reconozcan como referente en lo tuyo y te elijan por lo que sabes.</p>
-          <ul><li>Historia de origen y mensaje central</li><li>Nicho y cliente ideal</li><li>Pilares de contenido y banco de ideas</li><li>Guiones y ganchos para grabar a cámara</li><li>Perfil y bio optimizados para vender</li></ul></article>
-        <article class='svc rv' style='--d:1'><div class='svc-head'><span class='badge'>B</span><h3>Redes sociales y marketing</h3></div>
-          <p>Estrategia y contenido para que tus redes vendan, no solo junten likes.</p>
-          <ul><li>Estrategia por plataforma</li><li>Calendario mensual de contenido</li><li>Diseño de posts, carruseles y reels</li><li>Copys y ganchos que retienen</li><li>Reporte mensual con métricas</li></ul></article>
-        <article class='svc rv'><div class='svc-head'><span class='badge'>C</span><h3>Personalización y rebranding</h3></div>
-          <p>Renovamos tu imagen sin perder lo que ya construiste con tus clientes.</p>
-          <ul><li>Diagnóstico de tu marca actual</li><li>Nueva identidad visual</li><li>Paleta de colores y tipografías</li><li>Manual de marca simple de usar</li><li>Plantillas para redes</li></ul></article>
-        <article class='svc rv' style='--d:1'><div class='svc-head'><span class='badge'>D</span><h3>Landings, logos y dominios</h3></div>
-          <p>Tu casa digital: rápida, clara y con tu propio nombre.</p>
-          <ul><li>Diseño de logo</li><li>Landing page o sitio web</li><li>Registro y configuración de dominio</li><li>Correo con tu dominio</li><li>Pensado primero para celular</li></ul></article>
-        <article class='svc rv'><div class='svc-head'><span class='badge'>E</span><h3>Anuncios con IA en Meta Ads</h3></div>
-          <p>Campañas en Facebook e Instagram con creatividades hechas con inteligencia artificial.</p>
-          <ul><li>Imágenes y videos creados con IA</li><li>Estructura de campañas y públicos</li><li>Retargeting a tu audiencia caliente</li><li>Optimización semanal</li><li>Métricas claras: costo por cliente</li></ul></article>
-        <article class='svc feature rv' style='--d:1'><div class='svc-head'><span class='badge'>F</span><h3>Plan pymes</h3><span class='tag'>A medida</span></div>
-          <p>Todo lo anterior armado según tu negocio, tu etapa y tu presupuesto.</p>
-          <ul><li>Diagnóstico inicial</li><li>Plan por etapas con prioridades</li><li>Un solo equipo para todo</li><li>Reuniones de avance</li><li>Acompañamiento continuo</li></ul></article>
+          <ul><li>Historia de origen y mensaje central</li><li>Nicho y cliente ideal</li><li>Bio y destacadas que venden</li><li>Pilares de contenido y banco de ideas</li><li>Guiones y ganchos para grabar a cámara</li></ul></article>
+        <article class='svc feature rv' style='--d:1'><div class='svc-head'><span class='badge'>B</span><h3>Automatizaciones con IA</h3><span class='tag'>24/7</span></div>
+          <p>Un asistente que responde los mensajes y comentarios de tu Instagram con la información de tu negocio.</p>
+          <ul><li>Respuestas a DMs y comentarios 24/7</li><li>Entrenado con tus servicios, precios y horarios</li><li>Agenda horas y toma datos de contacto</li><li>Deriva a tu equipo cuando hace falta</li><li>Ajustes mensuales según las conversaciones</li></ul></article>
+        <article class='svc rv' style='--d:2'><div class='svc-head'><span class='badge'>C</span><h3>Contenido y anuncios</h3></div>
+          <p>Contenido que retiene y campañas en Meta que traen clientes, medidas con números.</p>
+          <ul><li>Calendario y guiones de contenido</li><li>Reels, carruseles e historias</li><li>Creatividades con IA para anuncios</li><li>Campañas en Meta Ads y retargeting</li><li>Reporte con costo por cliente</li></ul></article>
+      </div>
+
+      <div class='extras'>
+        <p class='eyebrow rv'>Extras</p>
+        <div class='ex-grid'>
+          <div class='ex rv' style='--d:0'><h4>Logos</h4><p>Identidad simple que se ve profesional.</p></div>
+          <div class='ex rv' style='--d:1'><h4>Landings</h4><p>Tu página rápida, clara y pensada para celular.</p></div>
+          <div class='ex rv' style='--d:2'><h4>Dominios y correo</h4><p>Tu propio .cl y correo con tu nombre.</p></div>
+          <div class='ex rv' style='--d:3'><h4>Rebranding</h4><p>Renovar tu imagen sin perder lo construido.</p></div>
+        </div>
       </div>
     </div>
   </section>
@@ -726,15 +797,15 @@ button{font:inherit}
       <p class='eyebrow rv'>Planes</p>
       <h2 class='h2 rv clip'>Elige tu punto<em>de partida.</em></h2>
       <div class='plans swipe plans-row' data-swipe data-start='1'>
-        <article class='plan card rv' style='--d:0'><small>Pequeñas pymes</small><h3>Arranque</h3><p class='for'>Para verte profesional desde el día uno.</p>
-          <ul><li>Logo e identidad básica</li><li>Landing con dominio propio</li><li>Perfil de redes ordenado y plantillas</li><li>Primera campaña en Meta con IA</li></ul>
-          <p class='price'><b>Según diagnóstico</b>Propuesta cerrada en CLP</p><a href='#agenda' class='btn'>Agendar diagnóstico</a></article>
-        <article class='plan card hot rv' style='--d:1'><small>Pymes</small><h3>Crecimiento</h3><p class='for'>Para ordenar la marca y vender más.</p>
-          <ul><li>Rebranding completo</li><li>Sitio web de hasta 3 páginas</li><li>Contenido mensual para redes</li><li>Campañas Meta con IA y optimización semanal</li></ul>
-          <p class='price'><b>Según diagnóstico</b>Propuesta cerrada en CLP</p><a href='#agenda' class='btn shine'>Agendar diagnóstico</a></article>
+        <article class='plan card rv' style='--d:0'><small>Automatización</small><h3>Asistente IA</h3><p class='for'>Para dejar de perder clientes por no responder a tiempo.</p>
+          <ul><li>Asistente para DMs y comentarios</li><li>Configurado con la info de tu negocio</li><li>Agenda y toma de datos</li><li>Ajustes mensuales</li></ul>
+          <p class='price'><b>Según diagnóstico</b>Propuesta cerrada en CLP</p><a href='#agenda' class='btn'>Diagnóstico gratis</a></article>
+        <article class='plan card hot rv' style='--d:1'><small>Pymes</small><h3>Crecimiento</h3><p class='for'>Para atraer, responder y vender con un solo sistema.</p>
+          <ul><li>Asistente IA 24/7</li><li>Contenido mensual para redes</li><li>Campañas Meta con IA y optimización semanal</li><li>Reporte mensual con números</li></ul>
+          <p class='price'><b>Según diagnóstico</b>Propuesta cerrada en CLP</p><a href='#agenda' class='btn shine'>Diagnóstico gratis</a></article>
         <article class='plan card rv' style='--d:2'><small>Marca personal</small><h3>Programa</h3><p class='for'>Para que te elijan por lo que sabes.</p>
           <ul><li>Historia y posicionamiento</li><li>Pilares, guiones y calendario</li><li>Contenido a cámara</li><li>Embudo y anuncios en Meta</li></ul>
-          <p class='price'><b>Según diagnóstico</b>Propuesta cerrada en CLP</p><a href='#agenda' class='btn'>Agendar diagnóstico</a></article>
+          <p class='price'><b>Según diagnóstico</b>Propuesta cerrada en CLP</p><a href='#agenda' class='btn'>Diagnóstico gratis</a></article>
       </div>
       <div class='swipe-dots' data-dots></div>
     </div>
@@ -745,14 +816,14 @@ button{font:inherit}
       <p class='eyebrow rv'>Preguntas frecuentes</p>
       <h2 class='h2 rv clip'>Lo que siempre<em>nos preguntan.</em></h2>
       <div class='faq'>
-        <details class='rv'><summary>¿Cuánto cuesta?</summary><p>Depende de lo que necesites. En el diagnóstico vemos tu situación y te enviamos una propuesta cerrada en pesos chilenos, con todo lo que incluye y sin sorpresas.</p></details>
-        <details class='rv' style='--d:1'><summary>¿Puedo contratar un solo servicio?</summary><p>Sí. Puedes partir solo con un logo, una landing o una campaña, y sumar más cuando lo necesites.</p></details>
-        <details class='rv' style='--d:2'><summary>¿La publicidad en Meta va aparte?</summary><p>Sí. El presupuesto de anuncios se paga directo a Meta y es aparte del servicio. Te ayudamos a definir un monto responsable para partir y a escalarlo solo cuando los números lo justifican.</p></details>
-        <details class='rv' style='--d:3'><summary>¿Las imágenes con IA se ven falsas?</summary><p>Las usamos para crear creatividades rápido y probar distintos ángulos, siempre revisadas y ajustadas a tu marca. Si tienes fotos reales de tu producto o equipo, las combinamos.</p></details>
-        <details class='rv' style='--d:4'><summary>¿Cuánto se demora?</summary><p>Depende del alcance. En la propuesta te damos fechas concretas para cada entrega, para que sepas qué recibes y cuándo.</p></details>
+        <details class='rv'><summary>¿Cuánto cuesta?</summary><p>Depende de lo que necesites. En el diagnóstico gratis vemos tu situación y te enviamos una propuesta cerrada en pesos chilenos, con todo lo que incluye y sin sorpresas.</p></details>
+        <details class='rv' style='--d:1'><summary>¿Puedo contratar una sola línea?</summary><p>Sí. Puedes partir solo con el asistente de IA, solo con contenido y anuncios, o con un extra puntual como un logo o una landing, y sumar más cuando lo necesites.</p></details>
+        <details class='rv' style='--d:2'><summary>¿El asistente de IA reemplaza a mi equipo?</summary><p>No. Responde al instante lo repetitivo (servicios, precios, horarios, disponibilidad) y le pasa a tu equipo las conversaciones que necesitan una persona.</p></details>
+        <details class='rv' style='--d:3'><summary>¿Qué necesito para tener el asistente?</summary><p>Una cuenta profesional de Instagram y la información de tu negocio: servicios, precios, horarios y preguntas frecuentes. Nosotros lo configuramos y lo probamos contigo antes de activarlo.</p></details>
+        <details class='rv' style='--d:4'><summary>¿La publicidad en Meta va aparte?</summary><p>Sí. El presupuesto de anuncios se paga directo a Meta y es aparte del servicio. Te ayudamos a definir un monto responsable para partir y a escalarlo solo cuando los números lo justifican.</p></details>
         <details class='rv' style='--d:5'><summary>¿Prometen ventas?</summary><p>No prometemos cifras. Te entregamos un sistema medido con números y lo ajustamos según lo que muestran los resultados.</p></details>
       </div>
-      <div class='btn-row rv'><a href='#agenda' class='btn shine'>Agenda tu diagnóstico <span class='ar'>→</span></a></div>
+      <div class='btn-row rv'><a href='#agenda' class='btn shine'>Diagnóstico gratis <span class='ar'>→</span></a></div>
     </div>
   </section>
 </div>
@@ -762,7 +833,7 @@ button{font:inherit}
   <section class='phead'>
     <div class='hero-bg' aria-hidden='true'><div class='glow'></div><span class='slash s1'></span><span class='slash s2'></span></div>
     <div class='wrap'>
-      <p class='eyebrow' style='color:var(--gold)'>03 — Agenda</p>
+      <p class='eyebrow' style='color:var(--gold)'>03 — Diagnóstico gratis</p>
       <h1 class='h2'><span class='ln'><span>Agenda tu</span></span><span class='ln'><span>diagnóstico.</span></span><em>Hablemos de tu negocio.</em></h1>
       <p class='lead'>Elige día y hora, responde 3 preguntas rápidas y te llega la confirmación al correo. Online y sin costo.</p>
     </div>
@@ -775,7 +846,7 @@ button{font:inherit}
         <h2 class='h2 rv clip' style='font-size:clamp(40px,4.4vw,60px)'>30 minutos.<em>Un plan claro.</em></h2>
         <div class='steps'>
           <div class='step rv left'><b>01</b><h3>Nos cuentas</h3><p>Tu negocio, tus redes y lo que quieres lograr en los próximos meses.</p></div>
-          <div class='step rv left' style='--d:1'><b>02</b><h3>Revisamos</h3><p>Marca, redes y anuncios, en vivo. Te mostramos qué está frenando tu crecimiento.</p></div>
+          <div class='step rv left' style='--d:1'><b>02</b><h3>Revisamos</h3><p>Tu Instagram, tus mensajes y tus anuncios, en vivo. Te mostramos qué está frenando tus ventas y qué se puede automatizar.</p></div>
           <div class='step rv left' style='--d:2'><b>03</b><h3>Te proponemos</h3><p>Un plan con prioridades, plazos y precio en CLP. Tú decides si avanzamos.</p></div>
         </div>
         <p class='note rv'>Te llevas el plan aunque no trabajemos juntos.</p>
@@ -846,15 +917,15 @@ button{font:inherit}
         <span class='lw'>SC<svg viewBox='0 0 280 252' aria-hidden='true'><path d='M140 0 L280 252 H199 L140 140 L80 252 H0 Z' fill='#D4A24E'/></svg>LE</span>
         <span class='ls'><i></i>Studio<i></i></span>
       </a>
-      <p>Marca, contenido y anuncios con IA para pymes, pequeñas pymes y marcas personales.</p>
+      <p>Marketing y automatización con IA para pymes: clínicas, turismo, ecommerce y marcas personales.</p>
     </div>
-    <ul><li><a href='#inicio'>Inicio</a></li><li><a href='#servicios'>Servicios</a></li><li><a href='#agenda'>Agenda</a></li></ul>
+    <ul><li><a href='#inicio'>Inicio</a></li><li><a href='#servicios'>Servicios</a></li><li><a href='#agenda'>Diagnóstico</a></li></ul>
     <div class='legal'><span>© 2026 Scale Studio</span><span>Hecho en Chile</span></div>
   </div>
 </footer>
 
 <div class='mcta' id='mcta'>
-  <span><b>Diagnóstico</b>30 min · online</span>
+  <span><b>Diagnóstico gratis</b>30 min · online</span>
   <a href='#agenda' class='btn shine'>Agendar <span class='ar'>→</span></a>
 </div>
 
@@ -875,7 +946,7 @@ function route(){
   if(!PAGES.includes(h)) h = 'inicio';
   PAGES.forEach(p => { const el = document.getElementById('page-'+p); const show = p === h; if(el.hidden === show){ el.hidden = !show; } });
   document.querySelectorAll('.nav-links a').forEach(a => { if(a.dataset.page === h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-  document.title = {inicio:'Scale Studio — Marca, contenido y anuncios', servicios:'Servicios — Scale Studio', agenda:'Agenda tu diagnóstico — Scale Studio'}[h];
+  document.title = {inicio:'Scale Studio | Marketing y automatización IA', servicios:'Servicios — Scale Studio', agenda:'Diagnóstico gratis — Scale Studio'}[h];
   document.body.classList.toggle('on-agenda', h === 'agenda');
   window.scrollTo(0,0);
   observeReveals(); setupSwipes(); onScroll();
@@ -974,15 +1045,34 @@ const CALENDLY_URL = 'https://calendly.com/scalestudio001/30min';
 })();
 
 
-/* Trailer */
+/* Demo IA: chat animado */
 (function(){
-  const v = document.getElementById('trailerVid'), fr = document.getElementById('vframe'), b = document.getElementById('vplay');
-  if(!v) return;
-  b.addEventListener('click', () => { v.muted = false; v.play().catch(() => {}); });
-  v.addEventListener('play', () => { fr.classList.add('playing'); v.controls = true; });
-  v.addEventListener('pause', () => { if(v.currentTime < .2 || v.ended) fr.classList.remove('playing'); });
-  v.addEventListener('ended', () => fr.classList.remove('playing'));
-  window.addEventListener('hashchange', () => { if(!v.paused) v.pause(); });
+  const chat = document.getElementById('chat'), toast = document.getElementById('chatToast'); if(!chat) return;
+  const msgs = [...chat.querySelectorAll('.msg')];
+  msgs.forEach(m => m.textContent = m.dataset.t);
+  if(REDUCE){ msgs.forEach(m => m.classList.add('show','vis')); toast.classList.add('show'); return; }
+  let running = false;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  async function play(){
+    if(running) return; running = true;
+    while(true){
+      msgs.forEach(m => m.classList.remove('show','vis')); toast.classList.remove('show');
+      await wait(700);
+      for(const m of msgs){
+        if(m.classList.contains('a')){
+          const t = document.createElement('p'); t.className = 'msg a typing show vis'; t.innerHTML = '<i></i><i></i><i></i>';
+          chat.insertBefore(t, m); await wait(1300); t.remove();
+        } else { await wait(900); }
+        m.classList.add('show'); requestAnimationFrame(() => m.classList.add('vis'));
+        await wait(500);
+      }
+      toast.classList.add('show');
+      await wait(5000);
+    }
+  }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver((es, o) => es.forEach(e => { if(e.isIntersecting){ play(); o.disconnect(); } }), {threshold:.3}).observe(chat);
+  } else play();
 })();
 
 /* Academia CTA: vuelve al formulario */
